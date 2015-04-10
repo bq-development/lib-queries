@@ -46,7 +46,7 @@ public class Sort {
 			String orderType = entry.getValue().getAsString();
 			String field = entry.getKey();
 			return new Sort(orderType, field);
-		} catch (JsonParseException | IllegalStateException e) {
+		} catch (JsonParseException | IllegalStateException | UnsupportedOperationException e) {
 			LOG.debug("Invalid sort string: {}. Throwing IllegalArgumentException", json);
 			throw new IllegalArgumentException("Not a valid sort string: " + json);
 		}
