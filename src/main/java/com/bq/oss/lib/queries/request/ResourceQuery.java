@@ -1,8 +1,11 @@
 package com.bq.oss.lib.queries.request;
 
+import static java.util.stream.StreamSupport.stream;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ResourceQuery implements Iterable<QueryNode> {
@@ -20,6 +23,10 @@ public class ResourceQuery implements Iterable<QueryNode> {
 	@Override
 	public Iterator<QueryNode> iterator() {
 		return conjunctions.iterator();
+	}
+
+	public Set<String> getFilters() {
+		return stream(this.spliterator(), false).map(QueryNode::getField).collect(Collectors.toSet());
 	}
 
 	@Override

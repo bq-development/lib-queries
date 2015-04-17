@@ -2,10 +2,10 @@ package com.bq.oss.lib.queries.request;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import com.bq.oss.lib.queries.QueryNodeImpl;
 import org.junit.Test;
 
 import com.bq.oss.lib.queries.BooleanQueryLiteral;
+import com.bq.oss.lib.queries.QueryNodeImpl;
 import com.bq.oss.lib.queries.StringQueryLiteral;
 
 public class ResourceQueryTest {
@@ -32,5 +32,18 @@ public class ResourceQueryTest {
 		assertThat(resourceQuery2.toString()).isEqualTo(
 				"[{\"$gt\":{\"" + FIELD2 + "\":" + VALUE2 + "}},{\"$eq\":{\"" + FIELD1 + "\":\"" + VALUE1 + "\"}}]");
 
+	}
+
+	@Test
+	public void getFiltersTest() {
+		ResourceQuery resourceQuery = new ResourceQuery();
+		StringQueryLiteral value1 = new StringQueryLiteral();
+		value1.setLiteral(VALUE1);
+		BooleanQueryLiteral value2 = new BooleanQueryLiteral();
+		value2.setLiteral(VALUE2);
+
+		resourceQuery.addQueryNode(new QueryNodeImpl(QueryOperator.$EQ, FIELD1, value1));
+		resourceQuery.addQueryNode(new QueryNodeImpl(QueryOperator.$GT, FIELD2, value2));
+		assertThat(resourceQuery.getFilters()).containsExactly(FIELD1, FIELD2);
 	}
 }
