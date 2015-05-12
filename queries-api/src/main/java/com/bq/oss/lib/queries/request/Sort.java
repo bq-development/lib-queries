@@ -17,9 +17,6 @@ import com.google.gson.JsonParser;
  * 
  */
 public class Sort {
-
-	private static final Logger LOG = LoggerFactory.getLogger(Sort.class);
-
 	public static enum Direction {
 		ASC,
 		DESC
@@ -28,29 +25,6 @@ public class Sort {
 	private Direction direction;
 	private String field;
 
-	/**
-	 * Factory method to construct the {@link Sort} object from its string (json) representation.
-	 * 
-	 * @throws IllegalArgumentException
-	 *             if the specified string is not valid
-	 */
-	public static Sort fromString(String json) throws IllegalArgumentException {
-		JsonParser parser = new JsonParser();
-		try {
-			JsonObject jsonObject = parser.parse(json).getAsJsonObject();
-			Set<Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
-			if (entrySet.size() != 1) {
-				throw new IllegalArgumentException("Sort is only allowed on one field. You gave me " + entrySet.size());
-			}
-			Entry<String, JsonElement> entry = entrySet.iterator().next();
-			String orderType = entry.getValue().getAsString();
-			String field = entry.getKey();
-			return new Sort(orderType, field);
-		} catch (JsonParseException | IllegalStateException | UnsupportedOperationException e) {
-			LOG.debug("Invalid sort string: {}. Throwing IllegalArgumentException", json);
-			throw new IllegalArgumentException("Not a valid sort string: " + json);
-		}
-	}
 
 	public Sort(String direction, String field) {
 		parseSortDirection(direction);
