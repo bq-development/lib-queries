@@ -44,6 +44,15 @@ public class MongoQueryBuilderTest {
 	}
 
 	@Test
+	public void buildQueriesWithOneResourceQueryTest() throws MalformedJsonQueryException {
+		List<ResourceQuery> resourceQueries = new ArrayList<ResourceQuery>();
+		resourceQueries.add(parser.parse("[{\"$lte\":{\"duration\":238.0}},{\"$gte\":{\"duration\":238.0}}]"));
+		Query query = new MongoQueryBuilder().query(resourceQueries).build();
+		assertEquals("{\"$and\":[{\"duration\":{\"$lte\":238.0}},{\"duration\":{\"$gte\":238.0}}]}", query
+				.getQueryObject().toString().replace(" ", ""));
+	}
+
+	@Test
 	public void repeatFieldTest() throws MalformedJsonQueryException {
 		ResourceQuery resourceQuery = parser.parse("[{\"$lte\":{\"duration\":238.0}},{\"$gte\":{\"duration\":238.0}}]");
 		Query query = new MongoQueryBuilder().query(resourceQuery).build();

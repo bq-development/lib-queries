@@ -52,7 +52,12 @@ public class MongoQueryBuilder implements QueryBuilder {
 		for (ResourceQuery resourceQuery : resourceQueries) {
 			criterias.add(getCriteriaFromResourceQuery(resourceQuery));
 		}
-		return new Criteria().orOperator(criterias.toArray(new Criteria[criterias.size()]));
+
+		if (criterias.size() == 1) {
+			return criterias.get(0);
+		} else {
+			return new Criteria().orOperator(criterias.toArray(new Criteria[criterias.size()]));
+		}
 	}
 
 	@Override
