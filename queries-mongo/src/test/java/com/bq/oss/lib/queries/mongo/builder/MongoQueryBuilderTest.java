@@ -1,15 +1,19 @@
 package com.bq.oss.lib.queries.mongo.builder;
 
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.data.mongodb.core.query.Query;
+
 import com.bq.oss.lib.queries.exception.MalformedJsonQueryException;
 import com.bq.oss.lib.queries.parser.CustomJsonParser;
 import com.bq.oss.lib.queries.parser.JacksonQueryParser;
 import com.bq.oss.lib.queries.request.ResourceQuery;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.springframework.data.mongodb.core.query.Query;
-
-import static org.junit.Assert.assertEquals;
 
 public class MongoQueryBuilderTest {
 
@@ -26,6 +30,17 @@ public class MongoQueryBuilderTest {
 		Query query = new MongoQueryBuilder().query(resourceQuery).build();
 		assertEquals("{\"$in\":[\"Metallica\"]}",
 				query.getQueryObject().toMap().get("categories").toString().replace(" ", ""));
+	}
+
+	@Test
+	public void buildQueriesTest() throws MalformedJsonQueryException {
+		List<ResourceQuery> resourceQueries = new ArrayList<ResourceQuery>();
+		resourceQueries.add(parser.parse("[{\"$lte\":{\"duration\":238.0}},{\"$gte\":{\"duration\":238.0}}]"));
+		resourceQueries.add(parser.parse("[{\"$lte\":{\"duration\":245.0}},{\"$gte\":{\"duration\":245.0}}]"));
+		Query query = new MongoQueryBuilder().query(resourceQueries).build();
+		assertEquals(
+				"{\"$or\":[{\"$and\":[{\"duration\":{\"$lte\":238.0}},{\"duration\":{\"$gte\":238.0}}]},{\"$and\":[{\"duration\":{\"$lte\":245.0}},{\"duration\":{\"$gte\":245.0}}]}]}",
+				query.getQueryObject().toString().replace(" ", ""));
 	}
 
 	@Test

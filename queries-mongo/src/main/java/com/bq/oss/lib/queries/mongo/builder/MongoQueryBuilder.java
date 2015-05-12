@@ -1,20 +1,24 @@
 package com.bq.oss.lib.queries.mongo.builder;
 
-import com.bq.oss.lib.mongo.SafeKeys;
-import com.bq.oss.lib.queries.ListQueryLiteral;
-import com.bq.oss.lib.queries.builder.QueryBuilder;
-import com.bq.oss.lib.queries.request.*;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+
+import com.bq.oss.lib.mongo.SafeKeys;
+import com.bq.oss.lib.queries.ListQueryLiteral;
+import com.bq.oss.lib.queries.builder.QueryBuilder;
+import com.bq.oss.lib.queries.request.Pagination;
+import com.bq.oss.lib.queries.request.QueryLiteral;
+import com.bq.oss.lib.queries.request.QueryNode;
+import com.bq.oss.lib.queries.request.QueryOperator;
+import com.bq.oss.lib.queries.request.ResourceQuery;
 
 /**
  * Created by Alberto J. Rubio
@@ -33,6 +37,22 @@ public class MongoQueryBuilder implements QueryBuilder {
 			query.addCriteria(getCriteriaFromResourceQuery(resourceQuery));
 		}
 		return this;
+	}
+
+	@Override
+	public QueryBuilder query(List<ResourceQuery> resourceQueries) {
+		if (!resourceQueries.isEmpty()) {
+			query.addCriteria(getCriteriaFromResourceQueries(resourceQueries));
+		}
+		return this;
+	}
+
+	private Criteria getCriteriaFromResourceQueries(List<ResourceQuery> resourceQueries) {
+		List<Criteria> criterias = new ArrayList<>();
+		for (ResourceQuery resourceQuery : resourceQueries) {
+			criterias.add(getCriteriaFromResourceQuery(resourceQuery));
+		}
+		return new Criteria().orOperator(criterias.toArray(new Criteria[criterias.size()]));
 	}
 
 	@Override
@@ -59,10 +79,10 @@ public class MongoQueryBuilder implements QueryBuilder {
 	public Criteria getCriteriaFromResourceQuery(ResourceQuery resourceQuery) {
 		List<Criteria> criterias = new ArrayList<Criteria>();
 		for (QueryNode queryNode : resourceQuery) {
-            String safeQuery = Arrays.stream(queryNode.getField().split("[.]")).map(SafeKeys::getSafeKey).collect(Collectors.joining("."));
+			String safeQuery = Arrays.stream(queryNode.getField().split("[.]")).map(SafeKeys::getSafeKey)
+					.collect(Collectors.joining("."));
 
-            criterias.add(criteria(queryNode.getOperator(), safeQuery,
-					queryNode.getValue()));
+			criterias.add(criteria(queryNode.getOperator(), safeQuery, queryNode.getValue()));
 		}
 
 		switch (criterias.size()) {

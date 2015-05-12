@@ -31,6 +31,20 @@ public interface GenericFindRepository<E, ID extends Serializable> extends Mongo
 	List<E> find(ResourceQuery resourceQuery, Pagination pagination, Sort sort);
 
 	/**
+	 * Returns a List of E Objects that match the disjunction of the assertions contained in ResourdceQueries. The
+	 * result can be paginated or/and sorted.
+	 * 
+	 * @param resourceQuery
+	 *            Object with the assertions for finding
+	 * @param pagination
+	 *            Object to paginate the result of the search
+	 * @param sort
+	 *            Object to sort the result
+	 * @return List of E Objects
+	 */
+	List<E> find(List<ResourceQuery> resourceQueries, Pagination pagination, Sort sort);
+
+	/**
 	 * Returns the number of E Objects that match the assertions contained in the specified ResourdceQuery.
 	 * 
 	 * @param resourceQuery
