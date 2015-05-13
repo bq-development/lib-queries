@@ -41,7 +41,7 @@ public class MongoQueryBuilder implements QueryBuilder {
 
 	@Override
 	public QueryBuilder query(List<ResourceQuery> resourceQueries) {
-		if (!resourceQueries.isEmpty()) {
+		if (resourceQueries != null && !resourceQueries.isEmpty()) {
 			query.addCriteria(getCriteriaFromResourceQueries(resourceQueries));
 		}
 		return this;

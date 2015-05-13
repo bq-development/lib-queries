@@ -122,4 +122,12 @@ public class MongoQueryBuilderTest {
 		Query query = new MongoQueryBuilder().query(resourceQuery).build();
 		assertEquals("{}", query.getQueryObject().toString().replace(" ", ""));
 	}
+
+	@Test
+	public void testNullResourceQuery() throws MalformedJsonQueryException {
+		ResourceQuery resourceQuery = null;
+		Query query = new MongoQueryBuilder().query(resourceQuery).build();
+		assertEquals("{}", query.getQueryObject().toString().replace(" ", ""));
+	}
+
 }
