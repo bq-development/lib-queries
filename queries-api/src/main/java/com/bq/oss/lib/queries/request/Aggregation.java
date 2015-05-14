@@ -1,12 +1,14 @@
 package com.bq.oss.lib.queries.request;
 
+import java.util.List;
+
 /**
  * @author Rubén Carrasco
  *
  */
 public interface Aggregation {
 
-	public ResourceQuery operate(ResourceQuery resourceQuery);
+    public List<ResourceQuery> operate(List<ResourceQuery> resourceQueries);
 
-	public AggregationOperator getOperator();
+    public AggregationOperator getOperator();
 }

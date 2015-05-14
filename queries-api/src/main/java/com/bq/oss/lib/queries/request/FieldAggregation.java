@@ -1,55 +1,60 @@
 package com.bq.oss.lib.queries.request;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 public abstract class FieldAggregation implements Aggregation {
 
-	protected final String field;
+    protected final String field;
 
-	public FieldAggregation(String field) {
-		this.field = field;
-	}
+    public FieldAggregation(String field) {
+        this.field = field;
+    }
 
-	@Override
-	public ResourceQuery operate(ResourceQuery resourceQuery) {
-		if (resourceQuery == null) {
-			resourceQuery = new ResourceQuery();
-		}
 
-		return resourceQuery;
-	}
 
-	public String getField() {
-		return field;
-	}
+    @Override
+    public List<ResourceQuery> operate(List<ResourceQuery> resourceQueries) {
+        if (resourceQueries == null) {
+            resourceQueries = Arrays.asList(new ResourceQuery());
+        }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((field == null) ? 0 : field.hashCode());
-		return result;
-	}
+        return resourceQueries;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		Count other = (Count) obj;
-		if (field == null) {
-			if (other.field != null) {
-				return false;
-			}
-		} else if (!field.equals(other.field)) {
-			return false;
-		}
-		return true;
-	}
+    public String getField() {
+        return field;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((field == null) ? 0 : field.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        Count other = (Count) obj;
+        if (field == null) {
+            if (other.field != null) {
+                return false;
+            }
+        } else if (!field.equals(other.field)) {
+            return false;
+        }
+        return true;
+    }
 
 }
