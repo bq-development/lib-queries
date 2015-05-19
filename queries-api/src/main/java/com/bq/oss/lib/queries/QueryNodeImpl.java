@@ -81,5 +81,4 @@ public class QueryNodeImpl implements QueryNode {
 		}
 		return true;
 	}
-
 }

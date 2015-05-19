@@ -1,22 +1,26 @@
 package com.bq.oss.lib.queries.request;
 
-import static java.util.stream.StreamSupport.stream;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ResourceQuery implements Iterable<QueryNode> {
+import static java.util.stream.StreamSupport.stream;
+
+public class ResourceQuery implements Iterable<QueryNode>, Cloneable {
 
 	private final List<QueryNode> conjunctions;
 
 	public ResourceQuery() {
-		this.conjunctions = new ArrayList<>();
+		this(new ArrayList<>());
 	}
 
-	public void addQueryNode(QueryNode queryNode) {
+    public ResourceQuery(List<QueryNode> conjunctions) {
+        this.conjunctions = conjunctions;
+    }
+
+    public void addQueryNode(QueryNode queryNode) {
 		conjunctions.add(queryNode);
 	}
 
@@ -61,4 +65,9 @@ public class ResourceQuery implements Iterable<QueryNode> {
 		return "{\"" + query.getOperator().name().toLowerCase() + "\":{\"" + query.getField() + "\":"
 				+ query.getValue() + "}}";
 	}
+
+    @Override
+    public ResourceQuery clone(){
+        return new ResourceQuery(new ArrayList<>(conjunctions));
+    }
 }
