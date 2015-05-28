@@ -56,6 +56,11 @@ public class QueryParameters {
         return pagination;
     }
 
+    @Deprecated
+    public Optional<ResourceQuery> getQuery() {
+        return Optional.ofNullable(listQueries.map(queries -> queries.get(0)).orElse(null));
+    }
+
     public Optional<List<ResourceQuery>> getQueries() {
         return listQueries;
     }
