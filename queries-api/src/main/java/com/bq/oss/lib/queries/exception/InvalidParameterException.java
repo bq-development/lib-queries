@@ -1,7 +1,7 @@
 package com.bq.oss.lib.queries.exception;
 
 /**
- * @author Alexander De Leon <me@alexdeleon.name>
+ * @author Alexander De Leon me@alexdeleon.name
  */
 public class InvalidParameterException extends IllegalArgumentException {
     public static enum Parameter {
