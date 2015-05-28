@@ -10,7 +10,7 @@
 
     <groupId>com.bq.oss.lib</groupId>
     <artifactId>queries</artifactId>
-    <version>0.5.0-SNAPSHOT</version>
+    <version>0.4.0</version>
     <name>lib-queries</name>
     <description>Library that allows you to add searchs and aggregations in ours APIs</description>
 
@@ -35,7 +35,7 @@
         <connection>scm:git:git@github.com:bq/lib-queries.git</connection>
         <developerConnection>scm:git:git@github.com:bq/lib-queries.git</developerConnection>
         <url>https://github.com/bq/lib-queries</url>
-        <tag>HEAD</tag>
+        <tag>queries-0.4.0</tag>
     </scm>
     <dependencies>
         <dependency>
