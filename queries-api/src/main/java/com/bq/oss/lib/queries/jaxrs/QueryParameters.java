@@ -13,7 +13,11 @@ import com.bq.oss.lib.queries.exception.MalformedJsonQueryException;
 import com.bq.oss.lib.queries.parser.AggregationParser;
 import com.bq.oss.lib.queries.parser.QueryParser;
 import com.bq.oss.lib.queries.parser.SortParser;
-import com.bq.oss.lib.queries.request.*;
+import com.bq.oss.lib.queries.request.Aggregation;
+import com.bq.oss.lib.queries.request.Pagination;
+import com.bq.oss.lib.queries.request.ResourceQuery;
+import com.bq.oss.lib.queries.request.ResourceSearch;
+import com.bq.oss.lib.queries.request.Sort;
 
 
 /**
@@ -26,12 +30,12 @@ public class QueryParameters {
     private Optional<ResourceSearch> search;
     private Optional<Aggregation> aggregationOperation;
 
-    public QueryParameters(int pageSize, int page, int maxPageSize, Optional<String> sort, Optional<?> optionalQueries,
-                           QueryParser queryParser, Optional<String> aggregation, AggregationParser aggregationParser, SortParser sortParser,
-                           Optional<String> search) {
+    public QueryParameters(int pageSize, int page, int maxPageSize, Optional<String> sort, Optional<List<String>> optionalQueries,
+            QueryParser queryParser, Optional<String> aggregation, AggregationParser aggregationParser, SortParser sortParser,
+            Optional<String> search) {
         this.pagination = buildPagination(page, pageSize, maxPageSize);
         this.sort = buildSort(sort, sortParser);
-        listQueries = buildQueries(optionalQueries, queryParser);
+        this.listQueries = buildQueries(optionalQueries, queryParser);
         this.aggregationOperation = buildOptionalAggregation(aggregation, aggregationParser);
         this.search = buildSearch(search);
     }
@@ -50,11 +54,6 @@ public class QueryParameters {
 
     public Pagination getPagination() {
         return pagination;
-    }
-
-    @Deprecated
-    public Optional<ResourceQuery> getQuery() {
-        return Optional.ofNullable(listQueries.map(queries -> queries.get(0)).orElse(null));
     }
 
     public Optional<List<ResourceQuery>> getQueries() {
@@ -77,7 +76,6 @@ public class QueryParameters {
         this.pagination = pagination;
     }
 
-    @Deprecated
     public void setQuery(Optional<ResourceQuery> optionalQuery) {
         listQueries = Optional.ofNullable(optionalQuery.map(query -> Arrays.asList(query)).orElse(null));
     }
@@ -98,15 +96,13 @@ public class QueryParameters {
         this.aggregationOperation = aggregationOperation;
     }
 
-    private Optional<Aggregation> buildOptionalAggregation(Optional<String> aggregation,
-                                                           AggregationParser aggregationParser) {
+    private Optional<Aggregation> buildOptionalAggregation(Optional<String> aggregation, AggregationParser aggregationParser) {
 
         if (aggregation.isPresent()) {
             try {
                 return Optional.of(aggregationParser.parse(aggregation.get()));
             } catch (MalformedJsonQueryException e) {
-                throw new InvalidParameterException(InvalidParameterException.Parameter.AGGREGATION, aggregation
-                        , e.getMessage(), e);
+                throw new InvalidParameterException(InvalidParameterException.Parameter.AGGREGATION, aggregation, e.getMessage(), e);
             }
         }
         return Optional.empty();
@@ -124,14 +120,10 @@ public class QueryParameters {
         return new Pagination(assertValidPage(page), assertValidPageSize(pageSize, macPageSize));
     }
 
-    private Optional<List<ResourceQuery>> buildQueries(Optional<?> optionalQueries, QueryParser queryParser) {
+    private Optional<List<ResourceQuery>> buildQueries(Optional<List<String>> optionalQueries, QueryParser queryParser) {
         return optionalQueries.map(queries -> {
-            //DEPRECATED: Quries as Optional<String>
-            if (queries instanceof String) {
-                return Arrays.asList(buildQuery((String) queries, queryParser));
-            } else {
-                return ((List<String>) queries).stream().map(stringQuery -> buildQuery(stringQuery, queryParser)).collect(Collectors.toList());
-            }
+            return queries.stream().map(stringQuery -> buildQuery(stringQuery, queryParser)).collect(Collectors.toList());
+
         });
     }
 
@@ -139,23 +131,20 @@ public class QueryParameters {
         try {
             return queryParser.parse(query);
         } catch (MalformedJsonQueryException e) {
-            throw new InvalidParameterException(InvalidParameterException.Parameter.QUERY, query
-                    , e.getMessage(), e);
+            throw new InvalidParameterException(InvalidParameterException.Parameter.QUERY, query, e.getMessage(), e);
         }
     }
 
     private int assertValidPageSize(int pageSize, int maxPageSize) {
         if (!(pageSize > 0 && pageSize <= maxPageSize)) {
-            throw new InvalidParameterException(InvalidParameterException.Parameter.PAGE_SIZE, pageSize
-                    , "Invalid pageSize: " + pageSize);
+            throw new InvalidParameterException(InvalidParameterException.Parameter.PAGE_SIZE, pageSize, "Invalid pageSize: " + pageSize);
         }
         return pageSize;
     }
 
     private int assertValidPage(int page) {
         if (page < 0) {
-            throw new InvalidParameterException(InvalidParameterException.Parameter.PAGE, page
-                    , "Invalid page: " + page);
+            throw new InvalidParameterException(InvalidParameterException.Parameter.PAGE, page, "Invalid page: " + page);
         }
         return page;
     }

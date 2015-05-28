@@ -1,5 +1,17 @@
 package com.bq.oss.lib.queries.jaxrs;
 
+import static org.fest.assertions.api.Assertions.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import com.bq.oss.lib.queries.exception.InvalidParameterException;
 import com.bq.oss.lib.queries.exception.MalformedJsonQueryException;
 import com.bq.oss.lib.queries.exception.QueryMatchingException;
@@ -10,17 +22,6 @@ import com.bq.oss.lib.queries.request.Aggregation;
 import com.bq.oss.lib.queries.request.ResourceQuery;
 import com.bq.oss.lib.queries.request.ResourceSearch;
 import com.bq.oss.lib.queries.request.Sort;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import static org.fest.assertions.api.Assertions.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by Francisco Sanchez on 12/05/15.
@@ -34,7 +35,7 @@ public class QueryParametersTest {
     private static final Sort TEST_SORT_PARSED = new Sort(TEST_SORT.get(), "Field");
     private static final Optional<String> TEST_SORT_EMPTY = Optional.empty();
 
-    private static final Optional<String> TEST_OPTIONAL_QUERY = Optional.of("test");
+    private static final Optional<List<String>> TEST_OPTIONAL_QUERY = Optional.of(Arrays.asList("test"));
     private static final ResourceQuery TEST_OPTIONAL_QUERY_PARSED = new ResourceQuery();
 
 
@@ -99,7 +100,6 @@ public class QueryParametersTest {
         assertThat(queryParameters.getPagination().getPageSize()).isEqualTo(TEST_PAGE_SIZE);
         assertThat(queryParameters.getPagination().getPage()).isEqualTo(TEST_PAGE);
 
-        assertThat(queryParameters.getQuery()).isEqualTo(Optional.empty());
         assertThat(queryParameters.getQueries()).isEqualTo(Optional.empty());
 
         assertThat(queryParameters.getAggregation()).isEqualTo(Optional.empty());
@@ -147,7 +147,7 @@ public class QueryParametersTest {
     @Test
     public void queryParametersTest() throws QueryMatchingException, MalformedJsonQueryException {
         when(sortParserMock.parse(TEST_SORT.get())).thenReturn(TEST_SORT_PARSED);
-        when(queryParserMock.parse(TEST_OPTIONAL_QUERY.get())).thenReturn(TEST_OPTIONAL_QUERY_PARSED);
+        when(queryParserMock.parse(TEST_OPTIONAL_QUERY.get().get(0))).thenReturn(TEST_OPTIONAL_QUERY_PARSED);
         when(aggregationParserMock.parse(TEST_AGGREGATION.get())).thenReturn(TEST_AGGREGATION_PARSED);
 
         QueryParameters queryParameters = new QueryParameters(TEST_PAGE_SIZE, TEST_PAGE, TEST_MAX_PAGE_SIZE, TEST_SORT,
@@ -156,7 +156,6 @@ public class QueryParametersTest {
         assertThat(queryParameters.getPagination().getPageSize()).isEqualTo(TEST_PAGE_SIZE);
         assertThat(queryParameters.getPagination().getPage()).isEqualTo(TEST_PAGE);
 
-        assertThat(queryParameters.getQuery().get()).isEqualTo(TEST_OPTIONAL_QUERY_PARSED);
         assertThat(queryParameters.getQueries().get()).isEqualTo(Arrays.asList(TEST_OPTIONAL_QUERY_PARSED));
 
         assertThat(queryParameters.getAggregation().get()).isEqualTo(TEST_AGGREGATION_PARSED);
@@ -171,9 +170,7 @@ public class QueryParametersTest {
                 TEST_OPTIONAL_LIST_QUERIES_EMPTY, queryParserMock, TEST_AGGREGATION_EMPTY, aggregationParserMock, sortParserMock,
                 TEST_SEARCH_EMPTY);
 
-        assertThat(queryParameters.getQuery()).isEqualTo(Optional.empty());
         queryParameters.setQuery(Optional.of(TEST_OPTIONAL_QUERY_PARSED));
-        assertThat(queryParameters.getQuery().get()).isEqualTo(TEST_OPTIONAL_QUERY_PARSED);
         assertThat(queryParameters.getQueries().get().get(0)).isEqualTo(TEST_OPTIONAL_QUERY_PARSED);
     }
 
