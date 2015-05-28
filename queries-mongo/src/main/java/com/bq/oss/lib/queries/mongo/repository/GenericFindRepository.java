@@ -12,14 +12,14 @@ import com.bq.oss.lib.queries.request.Sort;
 
 /**
  * @author Rubén Carrasco
- * 
+ *
  */
 public interface GenericFindRepository<E, ID extends Serializable> extends MongoRepository<E, ID> {
 
 	/**
 	 * Returns a List of E Objects that match the assertions contained in the specified ResourdceQuery. The result can
 	 * be paginated or/and sorted.
-	 * 
+	 *
 	 * @param resourceQuery
 	 *            Object with the assertions for finding
 	 * @param pagination
@@ -33,8 +33,8 @@ public interface GenericFindRepository<E, ID extends Serializable> extends Mongo
 	/**
 	 * Returns a List of E Objects that match the disjunction of the assertions contained in ResourdceQueries. The
 	 * result can be paginated or/and sorted.
-	 * 
-	 * @param resourceQuery
+	 *
+	 * @param resourceQueries
 	 *            Object with the assertions for finding
 	 * @param pagination
 	 *            Object to paginate the result of the search
@@ -46,7 +46,7 @@ public interface GenericFindRepository<E, ID extends Serializable> extends Mongo
 
 	/**
 	 * Returns the number of E Objects that match the assertions contained in the specified ResourdceQuery.
-	 * 
+	 *
 	 * @param resourceQuery
 	 *            Object with the assertions for finding
 	 * @return the number of E Objects that match the query
