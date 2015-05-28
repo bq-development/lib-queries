@@ -9,7 +9,7 @@ import com.bq.oss.lib.queries.request.ResourceQuery;
 import com.bq.oss.lib.queries.request.Sort;
 
 /**
- * Created by Alberto J. Rubio
+ * @author by Alberto J. Rubio
  */
 public interface QueryBuilder {
 
