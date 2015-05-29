@@ -27,16 +27,19 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+
     <organization>
         <name>bq</name>
         <url>http://www.bq.com/</url>
     </organization>
+
     <scm>
-        <connection>scm:git:git@github.com:bq/lib-queries.git</connection>
-        <developerConnection>scm:git:git@github.com:bq/lib-queries.git</developerConnection>
+        <connection>scm:git:ssh://bq-devtools@git.dev.bqsoftware.net:29418/lib-queries</connection>
+        <developerConnection>scm:git:ssh://bq-devtools@git.dev.bqsoftware.net:29418/lib-queries</developerConnection>
         <url>https://github.com/bq/lib-queries</url>
         <tag>HEAD</tag>
     </scm>
+
     <dependencies>
         <dependency>
             <groupId>com.bq.oss.lib</groupId>
@@ -60,6 +63,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
     <profiles>
         <profile>
             <id>release-sign-artifacts</id>
@@ -88,14 +92,17 @@
             </build>
         </profile>
     </profiles>
+
     <ciManagement>
         <system>Travis CI</system>
         <url>https://travis-ci.org/bq/lib-queries</url>
     </ciManagement>
+
     <issueManagement>
         <url>https://github.com/bq/lib-queries/issues</url>
         <system>GitHub Issues</system>
     </issueManagement>
+
     <developers>
         <developer>
             <name>David Martínez</name>
