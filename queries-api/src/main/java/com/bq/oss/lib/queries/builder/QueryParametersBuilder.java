@@ -10,8 +10,13 @@ import com.bq.oss.lib.queries.jaxrs.QueryParameters;
 import com.bq.oss.lib.queries.parser.AggregationParser;
 import com.bq.oss.lib.queries.parser.PaginationParser;
 import com.bq.oss.lib.queries.parser.QueryParser;
+import com.bq.oss.lib.queries.parser.SearchParser;
 import com.bq.oss.lib.queries.parser.SortParser;
-import com.bq.oss.lib.queries.request.*;
+import com.bq.oss.lib.queries.request.Aggregation;
+import com.bq.oss.lib.queries.request.Pagination;
+import com.bq.oss.lib.queries.request.ResourceQuery;
+import com.bq.oss.lib.queries.request.Search;
+import com.bq.oss.lib.queries.request.Sort;
 
 /**
  * @author Francisco Sanchez on 28/05/15.
@@ -22,13 +27,15 @@ public class QueryParametersBuilder {
     private final AggregationParser aggregationParser;
     private final SortParser sortParser;
     private final PaginationParser paginationParser;
+    private final SearchParser searchParser;
 
     public QueryParametersBuilder(QueryParser queryParser, AggregationParser aggregationParser, SortParser sortParser,
-            PaginationParser paginationParser) {
+            PaginationParser paginationParser, SearchParser searchParser) {
         this.queryParser = queryParser;
         this.aggregationParser = aggregationParser;
         this.sortParser = sortParser;
         this.paginationParser = paginationParser;
+        this.searchParser = searchParser;
     }
 
     public QueryParameters createQueryParameters(int page, int pageSize, int maxPageSize, Optional<String> sort,
@@ -74,8 +81,14 @@ public class QueryParametersBuilder {
         return Optional.empty();
     }
 
-    private Optional<ResourceSearch> buildSearch(Optional<String> optionalSearch) {
-        return optionalSearch.map(search -> Optional.of(new ResourceSearch(search))).orElse(Optional.empty());
+    private Optional<Search> buildSearch(Optional<String> optionalSearch) {
+        if (optionalSearch.isPresent()) {
+            try {
+                return Optional.of(searchParser.parse(optionalSearch.get()));
+            } catch (MalformedJsonQueryException e) {
+                throw new InvalidParameterException(InvalidParameterException.Parameter.SEARCH, optionalSearch, e.getMessage(), e);
+            }
+        }
+        return Optional.empty();
     }
-
 }
