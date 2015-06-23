@@ -21,7 +21,7 @@ public class QueryParametersTest {
     Optional<List<ResourceQuery>> queries;
     Optional<List<ResourceQuery>> conditions;
     Optional<Aggregation> aggreagation;
-    Optional<ResourceSearch> search;
+    Optional<Search> search;
 
 
     @Test
@@ -49,7 +49,7 @@ public class QueryParametersTest {
         queries = Optional.of(mock(List.class));
         conditions = Optional.of(mock(List.class));
         aggreagation = Optional.of(mock(Aggregation.class));
-        search = Optional.of(mock(ResourceSearch.class));
+        search = Optional.of(mock(Search.class));
     }
 
     private void assertQueryParameters(QueryParameters queryParameters) {

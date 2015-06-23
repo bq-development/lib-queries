@@ -10,7 +10,7 @@ import java.util.Optional;
 import com.bq.oss.lib.queries.request.Aggregation;
 import com.bq.oss.lib.queries.request.Pagination;
 import com.bq.oss.lib.queries.request.ResourceQuery;
-import com.bq.oss.lib.queries.request.ResourceSearch;
+import com.bq.oss.lib.queries.request.Search;
 import com.bq.oss.lib.queries.request.Sort;
 
 
@@ -24,9 +24,9 @@ public class QueryParameters {
     private Optional<List<ResourceQuery>> queries;
     private Optional<List<ResourceQuery>> conditions;
     private Optional<Aggregation> aggreagation;
-    private Optional<ResourceSearch> search;
+    private Optional<Search> search;
 
-    public QueryParameters(Pagination pagination, Optional<Sort> sort, Optional<List<ResourceQuery>> queries, Optional<List<ResourceQuery>> conditions, Optional<Aggregation> aggreagation, Optional<ResourceSearch> search) {
+    public QueryParameters(Pagination pagination, Optional<Sort> sort, Optional<List<ResourceQuery>> queries, Optional<List<ResourceQuery>> conditions, Optional<Aggregation> aggreagation, Optional<Search> search) {
         this.pagination = pagination;
         this.sort = sort;
         this.queries = queries;
@@ -85,11 +85,11 @@ public class QueryParameters {
         this.conditions = conditions;
     }
 
-    public Optional<ResourceSearch> getSearch() {
+    public Optional<Search> getSearch() {
         return search;
     }
 
-    public void setSearch(Optional<ResourceSearch> search) {
+    public void setSearch(Optional<Search> search) {
         this.search = search;
     }
 
