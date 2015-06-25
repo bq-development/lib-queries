@@ -1,24 +1,19 @@
 package com.bq.oss.lib.queries.mongo.builder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.bq.oss.lib.mongo.SafeKeys;
+import com.bq.oss.lib.queries.ListQueryLiteral;
+import com.bq.oss.lib.queries.builder.QueryBuilder;
+import com.bq.oss.lib.queries.request.*;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import com.bq.oss.lib.mongo.SafeKeys;
-import com.bq.oss.lib.queries.ListQueryLiteral;
-import com.bq.oss.lib.queries.builder.QueryBuilder;
-import com.bq.oss.lib.queries.request.Pagination;
-import com.bq.oss.lib.queries.request.QueryLiteral;
-import com.bq.oss.lib.queries.request.QueryNode;
-import com.bq.oss.lib.queries.request.QueryOperator;
-import com.bq.oss.lib.queries.request.ResourceQuery;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Alberto J. Rubio
@@ -53,7 +48,10 @@ public class MongoQueryBuilder implements QueryBuilder {
             criterias.add(getCriteriaFromResourceQuery(resourceQuery));
         }
 
-        if (criterias.size() == 1) {
+        if (criterias.size() == 0) {
+            return new Criteria();
+        }
+        else if (criterias.size() == 1) {
             return criterias.get(0);
         } else {
             return new Criteria().orOperator(criterias.toArray(new Criteria[criterias.size()]));
