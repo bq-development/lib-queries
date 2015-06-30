@@ -1,26 +1,17 @@
 package com.bq.oss.lib.queries.request;
 
 public enum QueryOperator {
-	$EQ(false),
-	$GT(false),
-	$GTE(false),
-	$IN(true),
-	$ALL(true),
-	$LT(false),
-	$LTE(false),
-	$NE(false),
-	$LIKE(false),
-	$ELEM_MATCH(true),
-	$EXISTS(false);
+    $EQ(false), $GT(false), $GTE(false), $IN(true), $NIN(true), $ALL(true), $LT(false), $LTE(false), $NE(false), $LIKE(false), $ELEM_MATCH(
+            true), $EXISTS(false);
 
-	boolean arrayOperator;
+    boolean arrayOperator;
 
-	private QueryOperator(boolean arrayOperator) {
-		this.arrayOperator = arrayOperator;
-	}
+    private QueryOperator(boolean arrayOperator) {
+        this.arrayOperator = arrayOperator;
+    }
 
-	public boolean isArrayOperator() {
-		return arrayOperator;
-	}
+    public boolean isArrayOperator() {
+        return arrayOperator;
+    }
 
 }

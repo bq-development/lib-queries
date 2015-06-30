@@ -1,19 +1,20 @@
 package com.bq.oss.lib.queries.mongo.builder;
 
-import com.bq.oss.lib.mongo.SafeKeys;
-import com.bq.oss.lib.queries.ListQueryLiteral;
-import com.bq.oss.lib.queries.builder.QueryBuilder;
-import com.bq.oss.lib.queries.request.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.bq.oss.lib.mongo.SafeKeys;
+import com.bq.oss.lib.queries.ListQueryLiteral;
+import com.bq.oss.lib.queries.builder.QueryBuilder;
+import com.bq.oss.lib.queries.request.*;
 
 /**
  * Created by Alberto J. Rubio
@@ -50,8 +51,7 @@ public class MongoQueryBuilder implements QueryBuilder {
 
         if (criterias.size() == 0) {
             return new Criteria();
-        }
-        else if (criterias.size() == 1) {
+        } else if (criterias.size() == 1) {
             return criterias.get(0);
         } else {
             return new Criteria().orOperator(criterias.toArray(new Criteria[criterias.size()]));
@@ -110,6 +110,8 @@ public class MongoQueryBuilder implements QueryBuilder {
                 return criteria.gte(value.getLiteral());
             case $IN:
                 return criteria.in(((ListQueryLiteral) value).getLiterals());
+            case $NIN:
+                return criteria.nin(((ListQueryLiteral) value).getLiterals());
             case $LT:
                 return criteria.lt(value.getLiteral());
             case $LTE:

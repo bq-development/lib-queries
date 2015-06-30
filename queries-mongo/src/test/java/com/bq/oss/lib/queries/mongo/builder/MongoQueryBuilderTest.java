@@ -1,19 +1,18 @@
 package com.bq.oss.lib.queries.mongo.builder;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.springframework.data.mongodb.core.query.Query;
-
 import com.bq.oss.lib.queries.exception.MalformedJsonQueryException;
 import com.bq.oss.lib.queries.parser.CustomJsonParser;
 import com.bq.oss.lib.queries.parser.JacksonQueryParser;
 import com.bq.oss.lib.queries.request.ResourceQuery;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.springframework.data.mongodb.core.query.Query;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class MongoQueryBuilderTest {
 
@@ -25,12 +24,20 @@ public class MongoQueryBuilderTest {
 	}
 
 	@Test
-	public void testBuildWithResourceQuery() throws MalformedJsonQueryException {
+	public void testBuildWithInResourceQuery() throws MalformedJsonQueryException {
 		ResourceQuery resourceQuery = parser.parse("[{\"$in\":{\"categories\":[\"Metallica\"]}}]");
 		Query query = new MongoQueryBuilder().query(resourceQuery).build();
 		assertEquals("{\"$in\":[\"Metallica\"]}",
 				query.getQueryObject().toMap().get("categories").toString().replace(" ", ""));
 	}
+
+    @Test
+    public void testBuildWithNinResourceQuery() throws MalformedJsonQueryException {
+        ResourceQuery resourceQuery = parser.parse("[{\"$nin\":{\"categories\":[\"Metallica\"]}}]");
+        Query query = new MongoQueryBuilder().query(resourceQuery).build();
+        assertEquals("{\"$nin\":[\"Metallica\"]}",
+                query.getQueryObject().toMap().get("categories").toString().replace(" ", ""));
+    }
 
 	@Test
 	public void buildQueriesTest() throws MalformedJsonQueryException {
