@@ -43,6 +43,8 @@ public abstract class QueryLiteral<T> {
 					return this.gte(object);
 				case $IN:
 					return this.in(object);
+                case $NIN:
+                    return this.nin(object);
 				case $LIKE:
 					return this.like(object);
 				case $LT:
@@ -82,6 +84,10 @@ public abstract class QueryLiteral<T> {
 	protected boolean in(Object object) throws QueryMatchingException {
 		throw new QueryMatchingException(getExceptionMessage(QueryOperator.$IN));
 	}
+
+    protected boolean nin(Object object) throws QueryMatchingException {
+        throw new QueryMatchingException(getExceptionMessage(QueryOperator.$NIN));
+    }
 
 	protected boolean like(Object object) throws QueryMatchingException {
 		throw new QueryMatchingException(getExceptionMessage(QueryOperator.$LIKE));

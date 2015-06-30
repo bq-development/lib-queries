@@ -110,6 +110,8 @@ public class MongoQueryBuilder implements QueryBuilder {
                 return criteria.gte(value.getLiteral());
             case $IN:
                 return criteria.in(((ListQueryLiteral) value).getLiterals());
+            case $NIN:
+                return criteria.nin(((ListQueryLiteral) value).getLiterals());
             case $LT:
                 return criteria.lt(value.getLiteral());
             case $LTE:

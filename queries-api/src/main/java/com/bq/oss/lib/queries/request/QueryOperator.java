@@ -5,6 +5,7 @@ public enum QueryOperator {
 	$GT(false),
 	$GTE(false),
 	$IN(true),
+    $NIN(true),
 	$ALL(true),
 	$LT(false),
 	$LTE(false),

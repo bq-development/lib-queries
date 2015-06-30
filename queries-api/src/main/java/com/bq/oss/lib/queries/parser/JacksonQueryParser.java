@@ -1,5 +1,14 @@
 package com.bq.oss.lib.queries.parser;
 
+import com.bq.oss.lib.queries.*;
+import com.bq.oss.lib.queries.exception.MalformedJsonQueryException;
+import com.bq.oss.lib.queries.request.QueryLiteral;
+import com.bq.oss.lib.queries.request.QueryNode;
+import com.bq.oss.lib.queries.request.QueryOperator;
+import com.bq.oss.lib.queries.request.ResourceQuery;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.joda.time.format.ISODateTimeFormat;
+
 import java.time.Duration;
 import java.time.Period;
 import java.time.format.DateTimeParseException;
@@ -10,16 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.bq.oss.lib.queries.*;
-import com.bq.oss.lib.queries.exception.MalformedJsonQueryException;
-import com.bq.oss.lib.queries.request.QueryOperator;
-import com.bq.oss.lib.queries.request.ResourceQuery;
-import com.bq.oss.lib.queries.request.QueryNode;
-import org.joda.time.format.ISODateTimeFormat;
-
-import com.bq.oss.lib.queries.request.QueryLiteral;
-import com.fasterxml.jackson.databind.JsonNode;
 
 public class JacksonQueryParser implements QueryParser {
 
@@ -94,7 +93,7 @@ public class JacksonQueryParser implements QueryParser {
 		} else if (nodeField.isArray()) {
 			if (!operator.isArrayOperator()) {
 				throw new MalformedJsonQueryException(
-						"Unsupported operation. Only $ALL, $IN and $ELEM_MATCH support operations with non primitive types.");
+						"Unsupported operation. Only $ALL, $IN, $NIN and $ELEM_MATCH support operations with non primitive types.");
 			}
 			if (operator == QueryOperator.$ELEM_MATCH) {
 				return generateResourceQueryQueryLiteral(nodeField);
