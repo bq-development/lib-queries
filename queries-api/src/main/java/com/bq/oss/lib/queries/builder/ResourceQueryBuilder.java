@@ -26,7 +26,7 @@ public class ResourceQueryBuilder {
     /**
      * Constructs a ResourceQueryBuilder with the given ResourceQuery
      * 
-     * @param resourceQuery
+     * @param resourceQuery to create the ResourceQueryBuilder
      */
     public ResourceQueryBuilder(ResourceQuery resourceQuery) {
         if (resourceQuery == null) {
@@ -85,7 +85,6 @@ public class ResourceQueryBuilder {
      * Adds a query node with a Boolean value to the {@link ResourceQuery}
      * 
      * @param field object of the operation
-     * @param value of the node
      * @param operator one of [$EQ, $NE]
      * @return ResourceQueryBuilder
      */
@@ -142,9 +141,9 @@ public class ResourceQueryBuilder {
     }
 
     /**
-     * Removes all nodes from the RescourceQuery whose field is given field
+     * Removes all nodes from the ResourceQuery whose field is given field
      * 
-     * @param field
+     * @param field object of the operation
      * @return ResourceQueryBuilder
      */
     public ResourceQueryBuilder remove(String field) {
@@ -159,7 +158,7 @@ public class ResourceQueryBuilder {
     }
 
     /**
-     * Builds a RecourceQuery
+     * Builds a ResourceQuery
      * 
      * @return ResourceQuery
      */
