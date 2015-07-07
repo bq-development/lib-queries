@@ -146,6 +146,14 @@
 		</profile>
 	</profiles>
 
+    <distributionManagement>
+        <snapshotRepository>
+            <id>sonatype</id>
+            <name>Sonatype Nexus snapshot repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 	<ciManagement>
 		<system>Travis CI</system>
 		<url>https://travis-ci.org/bq/lib-queries</url>
