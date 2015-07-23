@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<packaging>pom</packaging>
 
-	<groupId>com.bq.oss.lib</groupId>
+	<groupId>io.corbel.lib</groupId>
 	<artifactId>queries</artifactId>
 	<version>0.8.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
 	<name>lib-queries</name>
 
 	<description>Library that allows you to add searchs and aggregations in ours APIs</description>
-    <url>https://github.com/bq/lib-queries</url>
+    <url>https://github.com/corbel-platform/lib-queries</url>
 
     <licenses>
         <license>
@@ -32,7 +32,7 @@
 	<scm>
 		<connection>scm:git:ssh://bq-devtools@git.dev.bqsoftware.net:29418/lib-queries</connection>
 		<developerConnection>scm:git:ssh://bq-devtools@git.dev.bqsoftware.net:29418/lib-queries</developerConnection>
-		<url>https://github.com/bq/lib-queries</url>
+		<url>https://github.com/corbel-platform/lib-queries</url>
 		<tag>HEAD</tag>
 	</scm>
 
@@ -42,14 +42,14 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.bq.oss.lib</groupId>
+			<groupId>io.corbel.lib</groupId>
 			<artifactId>mongodb</artifactId>
-			<version>0.3.0</version>
+			<version>0.4.0-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jdk8</artifactId>
-			<version>2.5.0</version>
+			<version>2.5.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-beanutils</groupId>
@@ -163,11 +163,11 @@
 
 	<ciManagement>
 		<system>Travis CI</system>
-		<url>https://travis-ci.org/bq/lib-queries</url>
+		<url>https://travis-ci.org/corbel-platform/lib-queries</url>
 	</ciManagement>
 
 	<issueManagement>
-		<url>https://github.com/bq/lib-queries/issues</url>
+		<url>https://github.com/corbel-platform/lib-queries/issues</url>
 		<system>GitHub Issues</system>
 	</issueManagement>
 
