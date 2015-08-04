@@ -4,14 +4,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import io.corbel.lib.queries.exception.InvalidParameterException;
 import io.corbel.lib.queries.exception.MalformedJsonQueryException;
 import io.corbel.lib.queries.exception.QueryMatchingException;
@@ -26,6 +18,13 @@ import io.corbel.lib.queries.request.Pagination;
 import io.corbel.lib.queries.request.ResourceQuery;
 import io.corbel.lib.queries.request.Search;
 import io.corbel.lib.queries.request.Sort;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * @author Francisco Sanchez
@@ -64,7 +63,7 @@ public class QueryParametersBuilderTest {
     private static final Optional<String> TEST_AGGREGATION_EMPTY = Optional.empty();
 
     private static final Optional<String> TEST_SEARCH = Optional.of("test search");
-    private static final Search TEST_SEARCH_PARSED = new Search(TEST_SEARCH.get());
+    private static final Search TEST_SEARCH_PARSED = new Search(false, TEST_SEARCH.get());
 
     private static final Optional<String> TEST_SEARCH_EMPTY = Optional.empty();
 
@@ -95,7 +94,7 @@ public class QueryParametersBuilderTest {
         when(queryParserMock.parse(QUERY1)).thenReturn(QUERY1_PARSED);
         when(queryParserMock.parse(QUERY2)).thenReturn(QUERY2_PARSED);
         when(aggregationParserMock.parse(TEST_AGGREGATION.get())).thenReturn(TEST_AGGREGATION_PARSED);
-        when(searchParserMock.parse(TEST_SEARCH.get())).thenReturn(TEST_SEARCH_PARSED);
+        when(searchParserMock.parse(TEST_SEARCH.get(), false)).thenReturn(TEST_SEARCH_PARSED);
 
         QueryParameters queryParameters = queryParametersBuilder.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
                 TEST_SORT, TEST_OPTIONAL_LIST_QUERIES, TEST_OPTIONAL_LIST_CONDITIONS, TEST_AGGREGATION, TEST_SEARCH);
@@ -170,7 +169,7 @@ public class QueryParametersBuilderTest {
         when(sortParserMock.parse(TEST_SORT.get())).thenReturn(TEST_SORT_PARSED);
         when(queryParserMock.parse(TEST_OPTIONAL_QUERY.get().get(0))).thenReturn(TEST_OPTIONAL_QUERY_PARSED);
         when(aggregationParserMock.parse(TEST_AGGREGATION.get())).thenReturn(TEST_AGGREGATION_PARSED);
-        when(searchParserMock.parse(TEST_SEARCH.get())).thenReturn(TEST_SEARCH_PARSED);
+        when(searchParserMock.parse(TEST_SEARCH.get(), false)).thenReturn(TEST_SEARCH_PARSED);
 
         QueryParameters queryParameters = queryParametersBuilder.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
                 TEST_SORT, TEST_OPTIONAL_QUERY, TEST_OPTIONAL_LIST_CONDITIONS, TEST_AGGREGATION, TEST_SEARCH);

@@ -1,14 +1,12 @@
 package io.corbel.lib.queries.parser;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-
-import java.util.Optional;
-
+import io.corbel.lib.queries.exception.MalformedJsonQueryException;
 import io.corbel.lib.queries.request.Search;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -25,42 +23,43 @@ public class CustomSearchParserTest {
     }
 
     @Test
-    public void testValidObject() throws MalformedJsonQueryException {
-        String searchString = "{\"text\": \"text\", \"fields\": [\"field1\", \"field2\", \"field2\"], \"binded\": true}";
-        Search search = parser.parse(searchString);
-        assertThat(search.getText()).isEqualTo("text");
-        assertThat(search.isBinded()).isTrue();
-        assertThat(search.getFields().get()).isNotEmpty();
-        assertThat(search.getFields().get().size()).isEqualTo(2);
-        assertThat(search.getFields().get().contains("field1")).isTrue();
-        assertThat(search.getFields().get().contains("field2")).isTrue();
+    public void testValidString() throws MalformedJsonQueryException {
+        String searchString = "text";
+        Search search = parser.parse(searchString, false);
+        assertThat(search.getText().get()).isEqualTo("text");
+        assertThat(search.isBinded()).isFalse();
     }
 
     @Test
-    public void testValidObjectWithoutOptional() throws MalformedJsonQueryException {
-        String searchString = "{\"text\": \"text\"}";
-        Search search = parser.parse(searchString);
-        assertThat(search.getText()).isEqualTo("text");
-        assertThat(search.isBinded()).isFalse();
-        assertThat(search.getFields()).isEqualTo(Optional.empty());
+    public void testValidObject() throws MalformedJsonQueryException {
+        String searchString = "{\"templateName\": \"name\", \"params\": {}}";
+        Search search = parser.parse(searchString, true);
+        assertThat(search.getTemplate().get()).isEqualTo("name");
+        assertThat(search.isBinded()).isTrue();
     }
 
     @Test(expected = MalformedJsonQueryException.class)
-    public void testNotValidText() throws MalformedJsonQueryException {
-        String searchString = "{\"text\": {}}";
-        parser.parse(searchString);
+    public void testInvalidName() throws MalformedJsonQueryException {
+        String searchString = "{\"templateName\": {}, \"params\": {}}";
+        parser.parse(searchString, true);
     }
 
     @Test(expected = MalformedJsonQueryException.class)
-    public void testNotValidFields() throws MalformedJsonQueryException {
-        String searchString = "{\"text\": \"text\", \"fields\": [\"field1\", {}, \"field2\"], \"binded\": true}";
-        parser.parse(searchString);
+    public void testInvalidParams() throws MalformedJsonQueryException {
+        String searchString = "{\"templateName\": \"name\", \"params\": []}";
+        parser.parse(searchString, true);
     }
 
     @Test(expected = MalformedJsonQueryException.class)
-    public void testNotValidBinded() throws MalformedJsonQueryException {
-        String searchString = "{\"text\": \"text\", \"fields\": [\"field1\", \"field2\", \"field2\"], \"binded\": \"asdf\"}";
-        parser.parse(searchString);
+    public void testTemplateSerachWithoutName() throws MalformedJsonQueryException {
+        String searchString = "{\"params\": {}}";
+        parser.parse(searchString, false);
+    }
+
+    @Test(expected = MalformedJsonQueryException.class)
+    public void testTemplateSerachWithoutParams() throws MalformedJsonQueryException {
+        String searchString = "{\"templateName\": \"name\"}";
+        parser.parse(searchString, false);
     }
 
 }

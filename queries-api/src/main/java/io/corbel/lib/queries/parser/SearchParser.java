@@ -8,5 +8,5 @@ import io.corbel.lib.queries.request.Search;
  *
  */
 public interface SearchParser {
-    Search parse(String searchString) throws MalformedJsonQueryException;
+    Search parse(String searchString, boolean binded) throws MalformedJsonQueryException;
 }

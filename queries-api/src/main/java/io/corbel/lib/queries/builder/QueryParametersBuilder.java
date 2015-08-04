@@ -1,9 +1,5 @@
 package io.corbel.lib.queries.builder;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 import io.corbel.lib.queries.exception.InvalidParameterException;
 import io.corbel.lib.queries.exception.MalformedJsonQueryException;
 import io.corbel.lib.queries.jaxrs.QueryParameters;
@@ -17,6 +13,10 @@ import io.corbel.lib.queries.request.Pagination;
 import io.corbel.lib.queries.request.ResourceQuery;
 import io.corbel.lib.queries.request.Search;
 import io.corbel.lib.queries.request.Sort;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Francisco Sanchez
@@ -39,9 +39,15 @@ public class QueryParametersBuilder {
     }
 
     public QueryParameters createQueryParameters(int page, int pageSize, int maxPageSize, Optional<String> sort,
-            Optional<List<String>> queries, Optional<List<String>> conditions, Optional<String> aggregation, Optional<String> search) {
+            Optional<List<String>> queries, Optional<List<String>> conditions, Optional<String> aggregation, Optional<String> search,
+            boolean binded) {
         return new QueryParameters(buildPagination(page, pageSize, maxPageSize), buildSort(sort), buildResourceQueries(queries),
-                buildResourceQueries(conditions), buildAggregation(aggregation), buildSearch(search));
+                buildResourceQueries(conditions), buildAggregation(aggregation), buildSearch(search, binded));
+    }
+
+    public QueryParameters createQueryParameters(int page, int pageSize, int maxPageSize, Optional<String> sort,
+            Optional<List<String>> queries, Optional<List<String>> conditions, Optional<String> aggregation, Optional<String> search) {
+        return createQueryParameters(page, pageSize, maxPageSize, sort, queries, conditions, aggregation, search, false);
     }
 
     private Pagination buildPagination(int page, int pageSize, int maxPageSize) {
@@ -81,10 +87,10 @@ public class QueryParametersBuilder {
         return Optional.empty();
     }
 
-    private Optional<Search> buildSearch(Optional<String> optionalSearch) {
+    private Optional<Search> buildSearch(Optional<String> optionalSearch, boolean binded) {
         if (optionalSearch.isPresent()) {
             try {
-                return Optional.of(searchParser.parse(optionalSearch.get()));
+                return Optional.of(searchParser.parse(optionalSearch.get(), binded));
             } catch (MalformedJsonQueryException e) {
                 throw new InvalidParameterException(InvalidParameterException.Parameter.SEARCH, optionalSearch, e.getMessage(), e);
             }
