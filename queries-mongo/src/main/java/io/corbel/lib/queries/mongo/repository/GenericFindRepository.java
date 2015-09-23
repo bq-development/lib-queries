@@ -7,9 +7,9 @@ import io.corbel.lib.queries.request.Sort;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import io.corbel.lib.queries.request.AggregationResult;
 import io.corbel.lib.queries.request.Pagination;
 import io.corbel.lib.queries.request.ResourceQuery;
-import io.corbel.lib.queries.request.aggregation.AggregationResult;
 
 /**
  * @author Rubén Carrasco

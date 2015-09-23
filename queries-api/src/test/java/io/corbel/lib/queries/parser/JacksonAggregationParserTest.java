@@ -2,12 +2,12 @@ package io.corbel.lib.queries.parser;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.request.aggregation.Aggregation;
-import io.corbel.lib.queries.request.aggregation.AggregationOperator;
-import io.corbel.lib.queries.request.aggregation.Average;
-import io.corbel.lib.queries.request.aggregation.Max;
-import io.corbel.lib.queries.request.aggregation.Min;
-import io.corbel.lib.queries.request.aggregation.Sum;
+import io.corbel.lib.queries.request.Aggregation;
+import io.corbel.lib.queries.request.AggregationOperator;
+import io.corbel.lib.queries.request.Average;
+import io.corbel.lib.queries.request.Max;
+import io.corbel.lib.queries.request.Min;
+import io.corbel.lib.queries.request.Sum;
 
 import org.junit.Test;
 
