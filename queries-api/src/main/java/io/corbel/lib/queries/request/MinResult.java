@@ -1,4 +1,4 @@
-package io.corbel.lib.queries.request.aggregation;
+package io.corbel.lib.queries.request;
 
 /**
  * @author Rubén Carrasco
@@ -12,11 +12,11 @@ public class MinResult implements AggregationResult {
         this.min = min;
     }
 
-    public Object getMax() {
+    public Object getMin() {
         return min;
     }
 
-    public void setMax(Object min) {
+    public void setMin(Object min) {
         this.min = min;
     }
 }

@@ -1,6 +1,4 @@
-package io.corbel.lib.queries.request.aggregation;
-
-import io.corbel.lib.queries.request.ResourceQuery;
+package io.corbel.lib.queries.request;
 
 import java.util.List;
 

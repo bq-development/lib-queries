@@ -1,4 +1,4 @@
-package io.corbel.lib.queries.request.aggregation;
+package io.corbel.lib.queries.request;
 
 /**
  * @author Rubén Carrasco
