@@ -13,11 +13,11 @@ import io.corbel.lib.queries.parser.PaginationParser;
 import io.corbel.lib.queries.parser.QueryParser;
 import io.corbel.lib.queries.parser.SearchParser;
 import io.corbel.lib.queries.parser.SortParser;
-import io.corbel.lib.queries.request.Aggregation;
 import io.corbel.lib.queries.request.Pagination;
 import io.corbel.lib.queries.request.ResourceQuery;
 import io.corbel.lib.queries.request.Search;
 import io.corbel.lib.queries.request.Sort;
+import io.corbel.lib.queries.request.aggregation.Aggregation;
 
 import java.util.Arrays;
 import java.util.List;

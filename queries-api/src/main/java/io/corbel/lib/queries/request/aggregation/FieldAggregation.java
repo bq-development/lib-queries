@@ -1,4 +1,6 @@
-package io.corbel.lib.queries.request;
+package io.corbel.lib.queries.request.aggregation;
+
+import io.corbel.lib.queries.request.ResourceQuery;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,8 +13,6 @@ public abstract class FieldAggregation implements Aggregation {
     public FieldAggregation(String field) {
         this.field = field;
     }
-
-
 
     @Override
     public List<ResourceQuery> operate(List<ResourceQuery> resourceQueries) {

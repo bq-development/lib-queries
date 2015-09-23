@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 import io.corbel.lib.queries.request.*;
+import io.corbel.lib.queries.request.aggregation.Aggregation;
+
 import org.junit.Test;
 
 import io.corbel.lib.queries.exception.MalformedJsonQueryException;

@@ -5,15 +5,16 @@ import java.util.List;
 
 import io.corbel.lib.mongo.repository.impl.ExtendedRepository;
 import io.corbel.lib.queries.mongo.builder.MongoQueryBuilder;
-import io.corbel.lib.queries.request.CountResult;
 import io.corbel.lib.queries.request.Pagination;
 import io.corbel.lib.queries.request.ResourceQuery;
 import io.corbel.lib.queries.request.Sort;
+
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 
-import io.corbel.lib.queries.request.AggregationResult;
+import io.corbel.lib.queries.request.aggregation.AggregationResult;
+import io.corbel.lib.queries.request.aggregation.CountResult;
 
 /**
  * @author Rubén Carrasco

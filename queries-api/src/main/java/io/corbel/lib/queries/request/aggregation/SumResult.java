@@ -1,4 +1,4 @@
-package io.corbel.lib.queries.request;
+package io.corbel.lib.queries.request.aggregation;
 
 public class SumResult implements AggregationResult {
 

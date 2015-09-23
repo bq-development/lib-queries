@@ -1,6 +1,7 @@
 package io.corbel.lib.queries.request;
 
 import static org.fest.assertions.api.Assertions.assertThat;
+import io.corbel.lib.queries.request.aggregation.Count;
 
 import java.util.Iterator;
 import java.util.List;

@@ -1,9 +1,11 @@
-package io.corbel.lib.queries.request;
+package io.corbel.lib.queries.request.aggregation;
 
 import java.util.List;
 
 import io.corbel.lib.queries.BooleanQueryLiteral;
 import io.corbel.lib.queries.QueryNodeImpl;
+import io.corbel.lib.queries.request.QueryOperator;
+import io.corbel.lib.queries.request.ResourceQuery;
 
 /**
  * @author Rubén Carrasco
