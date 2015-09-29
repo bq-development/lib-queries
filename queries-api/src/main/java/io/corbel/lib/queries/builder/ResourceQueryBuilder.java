@@ -89,11 +89,24 @@ public class ResourceQueryBuilder {
      * @return ResourceQueryBuilder
      */
     public ResourceQueryBuilder add(String field, QueryOperator operator) {
+        return this.add(field, Boolean.TRUE, operator);
+    }
+
+    /**
+     * Adds a query node with a Boolean value to the {@link ResourceQuery}
+     *
+     * @param field object of the operation
+     * @param operator one of [$EQ, $NE, $EXISTS]
+     * @return ResourceQueryBuilder
+     */
+    public ResourceQueryBuilder add(String field, Boolean bool, QueryOperator operator) {
         BooleanQueryLiteral literal = new BooleanQueryLiteral();
+        literal.setLiteral(bool);
         QueryNodeImpl queryNode = new QueryNodeImpl(operator, field, literal);
         resourceQuery.addQueryNode(queryNode);
         return this;
     }
+
 
     /**
      * Adds a query node with a List value to the {@link ResourceQuery}
