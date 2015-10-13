@@ -51,6 +51,8 @@ public abstract class QueryLiteral<T> {
                     return this.lte(object);
                 case $NE:
                     return this.ne(object);
+                case $SIZE:
+                    return this.size(object);
                 default:
                     return false;
             }
@@ -101,6 +103,10 @@ public abstract class QueryLiteral<T> {
 
     protected boolean ne(Object object) throws QueryMatchingException {
         throw new QueryMatchingException(getExceptionMessage(QueryOperator.$NE));
+    }
+
+    protected boolean size(Object object) throws QueryMatchingException {
+        throw new QueryMatchingException(getExceptionMessage(QueryOperator.$SIZE));
     }
 
     private String getExceptionMessage(QueryOperator queryOperator) throws QueryMatchingException {

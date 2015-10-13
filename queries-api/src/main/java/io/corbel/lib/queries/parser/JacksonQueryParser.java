@@ -1,18 +1,13 @@
 package io.corbel.lib.queries.parser;
 
-import io.corbel.lib.queries.BooleanQueryLiteral;
-import io.corbel.lib.queries.DateQueryLiteral;
-import io.corbel.lib.queries.DoubleQueryLiteral;
-import io.corbel.lib.queries.ListQueryLiteral;
-import io.corbel.lib.queries.LongQueryLiteral;
-import io.corbel.lib.queries.QueryNodeImpl;
-import io.corbel.lib.queries.ResourceQueryQueryLiteral;
-import io.corbel.lib.queries.StringQueryLiteral;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.corbel.lib.queries.*;
 import io.corbel.lib.queries.exception.MalformedJsonQueryException;
 import io.corbel.lib.queries.request.QueryLiteral;
 import io.corbel.lib.queries.request.QueryNode;
 import io.corbel.lib.queries.request.QueryOperator;
 import io.corbel.lib.queries.request.ResourceQuery;
+import org.joda.time.format.ISODateTimeFormat;
 
 import java.time.Duration;
 import java.time.Period;
@@ -24,10 +19,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.joda.time.format.ISODateTimeFormat;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 public class JacksonQueryParser implements QueryParser {
 
@@ -110,7 +101,7 @@ public class JacksonQueryParser implements QueryParser {
             }
         } else if (operator.isArrayOperator()) {
             throw new MalformedJsonQueryException(
-                    "Unsopported operation. Only $EQ, $GT, $GTE, $LT, $LTE, $NE and $LIKE support operations with primitives.");
+                    "Unsopported operation. Only $EQ, $GT, $GTE, $LT, $LTE, $NE, $SIZE and $LIKE support operations with primitives.");
         }
         return generatePrimitiveQueryLiteral(nodeField);
     }

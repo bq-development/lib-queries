@@ -25,6 +25,14 @@ public class ResourceQueryBuilderTest {
 		assertThat(node.getOperator()).isEqualTo(QueryOperator.$EQ);
 	}
 
+    @Test
+    public void testAddSizeOp(){
+        ResourceQuery query = new ResourceQueryBuilder().add(FIELD, VALUE, QueryOperator.$SIZE).build();
+        QueryNode node = query.iterator().next();
+        assertThat((String) node.getValue().getLiteral()).isEqualTo(VALUE);
+        assertThat(node.getOperator()).isEqualTo(QueryOperator.$SIZE);
+    }
+
 	@Test
 	public void testAddWithNoOp() {
 		ResourceQuery query = new ResourceQueryBuilder().add(FIELD, VALUE).build();

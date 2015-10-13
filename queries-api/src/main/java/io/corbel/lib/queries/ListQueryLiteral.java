@@ -1,12 +1,12 @@
 package io.corbel.lib.queries;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import io.corbel.lib.queries.exception.QueryMatchingException;
 import io.corbel.lib.queries.request.QueryLiteral;
 import io.corbel.lib.queries.request.QueryOperator;
+
+import java.util.Iterator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class ListQueryLiteral extends QueryLiteral<List<QueryLiteral>> {
 
@@ -44,7 +44,13 @@ public class ListQueryLiteral extends QueryLiteral<List<QueryLiteral>> {
 		return true;
 	}
 
-	@Override
+    @Override
+    protected boolean size(Object object) throws QueryMatchingException {
+        Integer objectSize = (Integer) object;
+        return objectSize == literal.size();
+    }
+
+    @Override
 	protected boolean eq(Object object) throws QueryMatchingException {
 		List objectList = (List) object;
 		return objectList.size() == literal.size() && all(object);

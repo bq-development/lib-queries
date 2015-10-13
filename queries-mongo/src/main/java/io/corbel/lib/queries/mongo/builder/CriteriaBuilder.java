@@ -6,14 +6,13 @@ import io.corbel.lib.queries.request.QueryLiteral;
 import io.corbel.lib.queries.request.QueryNode;
 import io.corbel.lib.queries.request.QueryOperator;
 import io.corbel.lib.queries.request.ResourceQuery;
+import org.springframework.data.mongodb.core.query.Criteria;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-
-import org.springframework.data.mongodb.core.query.Criteria;
 
 /**
  * @author Rubén Carrasco
@@ -92,6 +91,8 @@ public class CriteriaBuilder {
                 return criteria.elemMatch(buildFromResourceQuery((ResourceQuery) value.getLiteral()));
             case $EXISTS:
                 return criteria.exists((Boolean) value.getLiteral());
+            case $SIZE:
+                return criteria.size(((Long)value.getLiteral()).intValue());
         }
         return criteria;
     }
