@@ -1,9 +1,9 @@
 package io.corbel.lib.queries;
 
-import java.math.BigDecimal;
-
 import io.corbel.lib.queries.exception.QueryMatchingException;
 import io.corbel.lib.queries.request.QueryLiteral;
+
+import java.math.BigDecimal;
 
 public class NumericQueryLiteral<T> extends QueryLiteral<T> {
 	public NumericQueryLiteral() {
@@ -44,9 +44,9 @@ public class NumericQueryLiteral<T> extends QueryLiteral<T> {
 	protected boolean lte(Object object) throws QueryMatchingException {
 		int result = compare(object);
 		return result == -1 || result == 0;
-	};
+	}
 
-	private int compare(Object object) {
+	protected int compare(Object object) {
 		return new BigDecimal(object.toString()).compareTo(new BigDecimal(literal.toString()));
 	};
 }

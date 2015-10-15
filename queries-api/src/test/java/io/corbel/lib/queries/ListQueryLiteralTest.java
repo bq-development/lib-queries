@@ -4,7 +4,6 @@ import io.corbel.lib.queries.exception.QueryMatchingException;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.Collections;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
@@ -25,15 +24,6 @@ public class ListQueryLiteralTest {
 				new ListQueryLiteral(Arrays.asList(new StringQueryLiteral("uno"), new StringQueryLiteral("dos"),
 						new StringQueryLiteral("tres"))).in("core")).isFalse();
 	}
-
-    @Test
-    public void sizeTest() throws QueryMatchingException {
-        assertThat(
-            new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-                        new LongQueryLiteral(3l))).size(3)).isTrue();
-        assertThat(
-            new ListQueryLiteral(Collections.emptyList()).size(0)).isTrue();
-    }
 
 	@Test
 	public void eqTest() throws QueryMatchingException {

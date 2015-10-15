@@ -1,5 +1,9 @@
 package io.corbel.lib.queries;
 
+import io.corbel.lib.queries.exception.QueryMatchingException;
+
+import java.util.List;
+
 public class LongQueryLiteral extends NumericQueryLiteral<Long> {
 	public LongQueryLiteral() {
 		super();
@@ -9,7 +13,13 @@ public class LongQueryLiteral extends NumericQueryLiteral<Long> {
 		super(literal);
 	}
 
-	@Override
+    @Override
+    protected boolean size(Object object) throws QueryMatchingException {
+        List objectList = (List) object;
+        return compare(objectList.size()) == 0;
+    }
+
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

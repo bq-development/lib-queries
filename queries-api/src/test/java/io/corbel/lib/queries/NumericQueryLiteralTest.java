@@ -1,12 +1,13 @@
 package io.corbel.lib.queries;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
 import io.corbel.lib.queries.exception.QueryMatchingException;
 import io.corbel.lib.queries.request.QueryLiteral;
+import io.corbel.lib.queries.request.QueryOperator;
 import org.junit.Test;
 
-import io.corbel.lib.queries.request.QueryOperator;
+import java.util.Collections;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 public class NumericQueryLiteralTest {
 
@@ -19,6 +20,14 @@ public class NumericQueryLiteralTest {
 
 		assertThat(literal.operate(QueryOperator.$EQ, 123.1)).isFalse();
 		assertThat(literal.operate(QueryOperator.$EQ, 124l)).isFalse();
+	}
+
+	@Test
+	public void sizeTest() throws QueryMatchingException {
+        QueryLiteral<Long> literal = new LongQueryLiteral(0l);
+        assertThat(literal.operate(QueryOperator.$SIZE, Collections.emptyList())).isTrue();
+        QueryLiteral<Long> literal2 = new LongQueryLiteral(1l);
+        assertThat(literal2.operate(QueryOperator.$SIZE, Collections.emptyList())).isFalse();
 	}
 
 	@Test
