@@ -1,10 +1,5 @@
 package io.corbel.lib.queries.matcher;
 
-import static org.fest.assertions.api.Assertions.assertThat;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import io.corbel.lib.queries.LongQueryLiteral;
 import io.corbel.lib.queries.QueryNodeImpl;
 import io.corbel.lib.queries.StringQueryLiteral;
@@ -12,6 +7,13 @@ import io.corbel.lib.queries.exception.QueryMatchingException;
 import io.corbel.lib.queries.request.QueryNode;
 import io.corbel.lib.queries.request.QueryOperator;
 import io.corbel.lib.queries.request.ResourceQuery;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.LinkedList;
+import java.util.List;
+
+import static org.fest.assertions.api.Assertions.assertThat;
 
 public class QueryMatcherTest {
 
@@ -29,8 +31,10 @@ public class QueryMatcherTest {
 
     @Test
     public void matchObjectStringTest() throws QueryMatchingException {
-        QueryNode queryNode1 = new QueryNodeImpl(QueryOperator.$EQ, "myStringField", new StringQueryLiteral("something"));
-        QueryNode queryNode2 = new QueryNodeImpl(QueryOperator.$LIKE, "myOtherStringField", new StringQueryLiteral(".*something.*"));
+        QueryNode queryNode1 = new QueryNodeImpl(QueryOperator.$EQ, "myStringField",
+                new StringQueryLiteral("something"));
+        QueryNode queryNode2 = new QueryNodeImpl(QueryOperator.$LIKE, "myOtherStringField", new StringQueryLiteral(
+                ".*something.*"));
 
         ResourceQuery resourceQuery = new ResourceQuery();
         resourceQuery.addQueryNode(queryNode1);
@@ -50,11 +54,33 @@ public class QueryMatcherTest {
     }
 
     @Test
+    public void matchLongSizeTest() throws QueryMatchingException {
+        List list = new LinkedList<String>();
+        QueryNode queryNode = new QueryNodeImpl(QueryOperator.$SIZE, "listField", new LongQueryLiteral(0l));
+        TestClass testObject = new TestClass();
+        testObject.setListField(list);
+
+        ResourceQuery resourceQuery = new ResourceQuery();
+        resourceQuery.addQueryNode(queryNode);
+
+        assertThat(queryMatcher.matchObject(resourceQuery, testObject)).isTrue();
+
+        list.add("one");
+        list.add("two");
+        QueryNode queryNode2 = new QueryNodeImpl(QueryOperator.$SIZE, "listField", new LongQueryLiteral(2l));
+        ResourceQuery resourceQuery2 = new ResourceQuery();
+        resourceQuery2.addQueryNode(queryNode2);
+        assertThat(queryMatcher.matchObject(resourceQuery2, testObject)).isTrue();
+
+    }
+
+    @Test
     public void matchLongTest() throws QueryMatchingException {
         QueryNode queryNode1 = new QueryNodeImpl(QueryOperator.$EQ, "longField", new LongQueryLiteral(123l));
         QueryNode queryNode2 = new QueryNodeImpl(QueryOperator.$LT, "intField", new LongQueryLiteral(123l));
         QueryNode queryNode3 = new QueryNodeImpl(QueryOperator.$EQ, "doubleField", new LongQueryLiteral(123l));
-        QueryNode queryNode4 = new QueryNodeImpl(QueryOperator.$EQ, "myStringField", new StringQueryLiteral("something"));
+        QueryNode queryNode4 = new QueryNodeImpl(QueryOperator.$EQ, "myStringField",
+                new StringQueryLiteral("something"));
 
         TestClass testObject = new TestClass();
         testObject.setLongField(123);
@@ -72,7 +98,8 @@ public class QueryMatcherTest {
 
     @Test(expected = QueryMatchingException.class)
     public void accessToNotExistingPropertyTest() throws QueryMatchingException {
-        QueryNode queryNode1 = new QueryNodeImpl(QueryOperator.$EQ, "notExistingField", new StringQueryLiteral("something"));
+        QueryNode queryNode1 = new QueryNodeImpl(QueryOperator.$EQ, "notExistingField", new StringQueryLiteral(
+                "something"));
         ResourceQuery resourceQuery = new ResourceQuery();
         resourceQuery.addQueryNode(queryNode1);
 
@@ -80,11 +107,20 @@ public class QueryMatcherTest {
     }
 
     public class TestClass {
+        private List<Object> listField;
         private String myStringField;
         private String myOtherStringField;
         private long longField;
         private int intField;
         private double doubleField;
+
+        public List<Object> getListField() {
+            return listField;
+        }
+
+        public void setListField(List<Object> listField) {
+            this.listField = listField;
+        }
 
         public String getMyStringField() {
             return myStringField;

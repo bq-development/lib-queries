@@ -45,16 +45,10 @@ public class ListQueryLiteral extends QueryLiteral<List<QueryLiteral>> {
     }
 
     @Override
-    protected boolean size(Object object) throws QueryMatchingException {
-        Integer objectSize = (Integer) object;
-        return objectSize == literal.size();
-    }
-
-    @Override
-    protected boolean eq(Object object) throws QueryMatchingException {
-        List objectList = (List) object;
-        return objectList.size() == literal.size() && all(object);
-    }
+	protected boolean eq(Object object) throws QueryMatchingException {
+		List objectList = (List) object;
+		return objectList.size() == literal.size() && all(object);
+	}
 
     @Override
     protected boolean ne(Object object) throws QueryMatchingException {
