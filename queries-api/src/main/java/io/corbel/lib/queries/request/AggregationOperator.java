@@ -5,5 +5,5 @@ package io.corbel.lib.queries.request;
  *
  */
 public enum AggregationOperator {
-    $COUNT, $AVG, $SUM, $MAX, $MIN
+    $COUNT, $AVG, $SUM, $MAX, $MIN, $COMBINE
 }

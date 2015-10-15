@@ -1,14 +1,5 @@
 package io.corbel.lib.queries.parser;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import io.corbel.lib.queries.*;
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.request.QueryLiteral;
-import io.corbel.lib.queries.request.QueryNode;
-import io.corbel.lib.queries.request.QueryOperator;
-import io.corbel.lib.queries.request.ResourceQuery;
-import org.joda.time.format.ISODateTimeFormat;
-
 import java.time.Duration;
 import java.time.Period;
 import java.time.format.DateTimeParseException;
@@ -19,6 +10,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.joda.time.format.ISODateTimeFormat;
+
+import com.fasterxml.jackson.databind.JsonNode;
+
+import io.corbel.lib.queries.*;
+import io.corbel.lib.queries.exception.MalformedJsonQueryException;
+import io.corbel.lib.queries.request.QueryLiteral;
+import io.corbel.lib.queries.request.QueryNode;
+import io.corbel.lib.queries.request.QueryOperator;
+import io.corbel.lib.queries.request.ResourceQuery;
 
 public class JacksonQueryParser implements QueryParser {
 
@@ -143,8 +145,8 @@ public class JacksonQueryParser implements QueryParser {
             if (isoDateMatcher.find()) {
                 try {
                     literal = new DateQueryLiteral();
-                    ((QueryLiteral<Date>) literal).setLiteral(ISODateTimeFormat.dateTimeParser().parseDateTime(isoDateMatcher.group(1))
-                            .toDate());
+                    ((QueryLiteral<Date>) literal)
+                            .setLiteral(ISODateTimeFormat.dateTimeParser().parseDateTime(isoDateMatcher.group(1)).toDate());
                 } catch (IllegalArgumentException e) {
                     throw new MalformedJsonQueryException("Wrong date format", e);
                 }

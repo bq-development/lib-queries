@@ -1,14 +1,15 @@
 package io.corbel.lib.queries.parser;
 
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.request.Sort;
-import com.fasterxml.jackson.databind.JsonNode;
+import java.util.Map;
 
-import com.google.gson.JsonParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Map;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.google.gson.JsonParseException;
+
+import io.corbel.lib.queries.exception.MalformedJsonQueryException;
+import io.corbel.lib.queries.request.Sort;
 
 /**
  * @author by Francisco Sanchez

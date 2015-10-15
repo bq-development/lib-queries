@@ -1,13 +1,13 @@
 package io.corbel.lib.queries.parser;
 
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.request.Search;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.corbel.lib.queries.exception.MalformedJsonQueryException;
+import io.corbel.lib.queries.request.Search;
 
 /**
  * @author Rubén Carrasco

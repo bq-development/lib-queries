@@ -5,5 +5,5 @@ import io.corbel.lib.queries.request.ResourceQuery;
 
 public interface QueryMatcher {
 
-	boolean matchObject(ResourceQuery resourceQuery, Object object) throws QueryMatchingException;
+    boolean matchObject(ResourceQuery resourceQuery, Object object) throws QueryMatchingException;
 }

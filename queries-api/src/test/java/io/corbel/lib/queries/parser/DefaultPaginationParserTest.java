@@ -2,11 +2,11 @@ package io.corbel.lib.queries.parser;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 
-import io.corbel.lib.queries.exception.InvalidParameterException;
-import io.corbel.lib.queries.request.Pagination;
 import org.junit.Test;
 
+import io.corbel.lib.queries.exception.InvalidParameterException;
 import io.corbel.lib.queries.exception.MalformedJsonQueryException;
+import io.corbel.lib.queries.request.Pagination;
 
 /**
  * @author Francisco Sanchez
@@ -22,17 +22,17 @@ public class DefaultPaginationParserTest {
 
     PaginationParser parser = new DefaultPaginationParser();
 
-	@Test
-	public void test() throws MalformedJsonQueryException {
-		Pagination pagination = parser.parse(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE);
-		assertThat(pagination.getPage()).isEqualTo(TEST_PAGE);
+    @Test
+    public void test() throws MalformedJsonQueryException {
+        Pagination pagination = parser.parse(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE);
+        assertThat(pagination.getPage()).isEqualTo(TEST_PAGE);
         assertThat(pagination.getPageSize()).isEqualTo(TEST_PAGE_SIZE);
-	}
+    }
 
-	@Test(expected = InvalidParameterException.class)
-	public void testInvalidPageSize() throws MalformedJsonQueryException {
+    @Test(expected = InvalidParameterException.class)
+    public void testInvalidPageSize() throws MalformedJsonQueryException {
         parser.parse(TEST_PAGE, TEST_PAGE_BIG_SIZE, TEST_MAX_PAGE_SIZE);
-	}
+    }
 
     @Test(expected = InvalidParameterException.class)
     public void testInvalidPage() throws MalformedJsonQueryException {

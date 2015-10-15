@@ -1,9 +1,10 @@
 package io.corbel.lib.queries.request;
 
 public interface QueryNode {
-	QueryOperator getOperator();
 
-	String getField();
+    QueryOperator getOperator();
 
-	QueryLiteral<?> getValue();
+    String getField();
+
+    QueryLiteral<?> getValue();
 }

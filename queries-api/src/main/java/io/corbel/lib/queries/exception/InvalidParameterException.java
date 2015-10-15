@@ -4,7 +4,8 @@ package io.corbel.lib.queries.exception;
  * @author Alexander De Leon
  */
 public class InvalidParameterException extends IllegalArgumentException {
-    public static enum Parameter {
+
+    public enum Parameter {
         AGGREGATION, QUERY, SORT, PAGE_SIZE, PAGE, SEARCH
     }
 

@@ -1,13 +1,14 @@
 package io.corbel.lib.queries.parser;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.request.Search;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.corbel.lib.queries.exception.MalformedJsonQueryException;
+import io.corbel.lib.queries.request.Search;
 
 /**
  * @author Rubén Carrasco

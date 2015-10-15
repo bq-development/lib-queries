@@ -4,20 +4,6 @@ import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import io.corbel.lib.queries.exception.InvalidParameterException;
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.exception.QueryMatchingException;
-import io.corbel.lib.queries.jaxrs.QueryParameters;
-import io.corbel.lib.queries.parser.AggregationParser;
-import io.corbel.lib.queries.parser.PaginationParser;
-import io.corbel.lib.queries.parser.QueryParser;
-import io.corbel.lib.queries.parser.SearchParser;
-import io.corbel.lib.queries.parser.SortParser;
-import io.corbel.lib.queries.request.Aggregation;
-import io.corbel.lib.queries.request.Pagination;
-import io.corbel.lib.queries.request.ResourceQuery;
-import io.corbel.lib.queries.request.Search;
-import io.corbel.lib.queries.request.Sort;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +11,13 @@ import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import io.corbel.lib.queries.exception.InvalidParameterException;
+import io.corbel.lib.queries.exception.MalformedJsonQueryException;
+import io.corbel.lib.queries.exception.QueryMatchingException;
+import io.corbel.lib.queries.jaxrs.QueryParameters;
+import io.corbel.lib.queries.parser.*;
+import io.corbel.lib.queries.request.*;
 
 /**
  * @author Francisco Sanchez
@@ -88,8 +81,8 @@ public class QueryParametersBuilderTest {
 
     @Test
     public void queryParametersListQueriesTest() throws QueryMatchingException, MalformedJsonQueryException {
-        when(paginationParserMock.parse(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE)).thenReturn(
-                new Pagination(TEST_PAGE_SIZE, TEST_PAGE));
+        when(paginationParserMock.parse(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE))
+                .thenReturn(new Pagination(TEST_PAGE_SIZE, TEST_PAGE));
         when(sortParserMock.parse(TEST_SORT.get())).thenReturn(TEST_SORT_PARSED);
         when(queryParserMock.parse(QUERY1)).thenReturn(QUERY1_PARSED);
         when(queryParserMock.parse(QUERY2)).thenReturn(QUERY2_PARSED);
@@ -112,8 +105,8 @@ public class QueryParametersBuilderTest {
 
     @Test
     public void queryParametersEmptyTest() throws QueryMatchingException, MalformedJsonQueryException {
-        when(paginationParserMock.parse(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE)).thenReturn(
-                new Pagination(TEST_PAGE_SIZE, TEST_PAGE));
+        when(paginationParserMock.parse(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE))
+                .thenReturn(new Pagination(TEST_PAGE_SIZE, TEST_PAGE));
 
         QueryParameters queryParameters = queryParametersBuilder.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
                 TEST_SORT_EMPTY, TEST_OPTIONAL_LIST_QUERIES_EMPTY, TEST_OPTIONAL_LIST_CONDITIONS_EMPTY, TEST_AGGREGATION_EMPTY,
@@ -164,8 +157,8 @@ public class QueryParametersBuilderTest {
 
     @Test
     public void queryParametersTest() throws QueryMatchingException, MalformedJsonQueryException {
-        when(paginationParserMock.parse(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE)).thenReturn(
-                new Pagination(TEST_PAGE_SIZE, TEST_PAGE));
+        when(paginationParserMock.parse(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE))
+                .thenReturn(new Pagination(TEST_PAGE_SIZE, TEST_PAGE));
         when(sortParserMock.parse(TEST_SORT.get())).thenReturn(TEST_SORT_PARSED);
         when(queryParserMock.parse(TEST_OPTIONAL_QUERY.get().get(0))).thenReturn(TEST_OPTIONAL_QUERY_PARSED);
         when(aggregationParserMock.parse(TEST_AGGREGATION.get())).thenReturn(TEST_AGGREGATION_PARSED);

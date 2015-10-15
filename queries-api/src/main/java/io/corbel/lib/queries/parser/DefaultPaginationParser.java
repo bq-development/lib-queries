@@ -26,6 +26,4 @@ public class DefaultPaginationParser implements PaginationParser {
         }
         return page;
     }
-
-
 }

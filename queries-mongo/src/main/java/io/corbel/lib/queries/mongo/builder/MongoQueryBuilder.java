@@ -1,15 +1,15 @@
 package io.corbel.lib.queries.mongo.builder;
 
-import io.corbel.lib.queries.builder.QueryBuilder;
-import io.corbel.lib.queries.request.Pagination;
-import io.corbel.lib.queries.request.ResourceQuery;
-
 import java.util.List;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.query.Query;
+
+import io.corbel.lib.queries.builder.QueryBuilder;
+import io.corbel.lib.queries.request.Pagination;
+import io.corbel.lib.queries.request.ResourceQuery;
 
 /**
  * @author Alberto J. Rubio

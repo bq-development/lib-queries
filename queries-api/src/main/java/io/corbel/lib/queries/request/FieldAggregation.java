@@ -1,6 +1,6 @@
 package io.corbel.lib.queries.request;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -15,7 +15,7 @@ public abstract class FieldAggregation implements Aggregation {
     @Override
     public List<ResourceQuery> operate(List<ResourceQuery> resourceQueries) {
         if (resourceQueries == null) {
-            resourceQueries = Arrays.asList(new ResourceQuery());
+            resourceQueries = Collections.singletonList(new ResourceQuery());
         }
 
         return resourceQueries;

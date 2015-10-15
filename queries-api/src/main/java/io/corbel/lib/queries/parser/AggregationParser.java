@@ -9,6 +9,6 @@ import io.corbel.lib.queries.request.Aggregation;
  */
 public interface AggregationParser {
 
-	public Aggregation parse(String aggregationString) throws MalformedJsonQueryException;
+    Aggregation parse(String aggregation) throws MalformedJsonQueryException;
 
 }

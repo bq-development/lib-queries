@@ -1,14 +1,15 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>io.corbel.lib</groupId>
-	<artifactId>queries</artifactId>
-	<version>0.10.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>io.corbel.lib</groupId>
+    <artifactId>queries</artifactId>
+    <version>0.10.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>lib-queries</name>
+    <name>lib-queries</name>
 
-	<description>Library that allows you to add searchs and aggregations in ours APIs</description>
+    <description>Library that allows you to add searchs and aggregations in ours APIs</description>
     <url>https://github.com/corbel-platform/lib-queries</url>
 
     <licenses>
@@ -24,44 +25,44 @@
         <url>http://www.bq.com/</url>
     </organization>
 
-	<modules>
-		<module>queries-api</module>
-		<module>queries-mongo</module>
-	</modules>
+    <modules>
+        <module>queries-api</module>
+        <module>queries-mongo</module>
+    </modules>
 
-	<scm>
-		<connection>scm:git:ssh://bq-devtools@git.dev.bqsoftware.net:29418/lib-queries</connection>
-		<developerConnection>scm:git:ssh://bq-devtools@git.dev.bqsoftware.net:29418/lib-queries</developerConnection>
-		<url>https://github.com/corbel-platform/lib-queries</url>
-		<tag>HEAD</tag>
-	</scm>
+    <scm>
+        <connection>scm:git:ssh://bq-devtools@git.dev.bqsoftware.net:29418/lib-queries</connection>
+        <developerConnection>scm:git:ssh://bq-devtools@git.dev.bqsoftware.net:29418/lib-queries</developerConnection>
+        <url>https://github.com/corbel-platform/lib-queries</url>
+        <tag>HEAD</tag>
+    </scm>
 
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>io.corbel.lib</groupId>
-			<artifactId>mongodb</artifactId>
-			<version>0.4.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jdk8</artifactId>
-			<version>2.5.1</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>jsr311-api</artifactId>
-			<version>1.1.1</version>
-			<scope>provided</scope>
-		</dependency>
+    <dependencies>
+        <dependency>
+            <groupId>io.corbel.lib</groupId>
+            <artifactId>mongodb</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jdk8</artifactId>
+            <version>2.5.1</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>1.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>jsr311-api</artifactId>
+            <version>1.1.1</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.easytesting</groupId>
             <artifactId>fest-assert-core</artifactId>
@@ -80,7 +81,7 @@
             <version>1.9.5</version>
             <scope>test</scope>
         </dependency>
-	</dependencies>
+    </dependencies>
 
     <build>
         <plugins>
@@ -124,34 +125,34 @@
             </plugin>
         </plugins>
     </build>
-	<profiles>
-		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <distributionManagement>
         <snapshotRepository>
@@ -161,96 +162,96 @@
         </snapshotRepository>
     </distributionManagement>
 
-	<ciManagement>
-		<system>Travis CI</system>
-		<url>https://travis-ci.org/corbel-platform/lib-queries</url>
-	</ciManagement>
+    <ciManagement>
+        <system>Travis CI</system>
+        <url>https://travis-ci.org/corbel-platform/lib-queries</url>
+    </ciManagement>
 
-	<issueManagement>
-		<url>https://github.com/corbel-platform/lib-queries/issues</url>
-		<system>GitHub Issues</system>
-	</issueManagement>
+    <issueManagement>
+        <url>https://github.com/corbel-platform/lib-queries/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
 
-	<developers>
-		<developer>
-			<name>David Martínez</name>
-			<email>david.martinez@bq.com</email>
-			<timezone>Europe/Madrid</timezone>
-			<roles>
-				<role>committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Alexander de Leon</name>
-			<email>alexander.deleon@bq.com</email>
-			<timezone>Europe/Madrid</timezone>
-			<roles>
-				<role>committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Alberto J. Rubio</name>
-			<email>alberto.rubio@bq.com</email>
-			<timezone>Europe/Madrid</timezone>
-			<roles>
-				<role>committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Anthanh Pham</name>
-			<email>anthanh.pham@bq.com</email>
-			<timezone>Europe/Madrid</timezone>
-			<roles>
-				<role>committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Francisco Sánchez</name>
-			<email>francisco.sanchez@bq.com</email>
-			<timezone>Europe/Madrid</timezone>
-			<roles>
-				<role>committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Ismael Madirolas</name>
-			<email>ismael.madirolas@bq.com</email>
-			<timezone>Europe/Madrid</timezone>
-			<roles>
-				<role>committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Cristian del Cerro</name>
-			<email>cristian.delcerro@bq.com</email>
-			<timezone>Europe/Madrid</timezone>
-			<roles>
-				<role>committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Rubén Carrasco</name>
-			<email>rcarrasco@bq.com</email>
-			<timezone>Europe/Madrid</timezone>
-			<roles>
-				<role>committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Laura Sada</name>
-			<email>laura.sada@bq.com</email>
-			<timezone>Europe/Madrid</timezone>
-			<roles>
-				<role>committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Luis Miguel García</name>
-			<email>luismiguel.garcia@bq.com</email>
-			<timezone>Europe/Madrid</timezone>
-			<roles>
-				<role>committer</role>
-			</roles>
-		</developer>
-	</developers>
+    <developers>
+        <developer>
+            <name>David Martínez</name>
+            <email>david.martinez@bq.com</email>
+            <timezone>Europe/Madrid</timezone>
+            <roles>
+                <role>committer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Alexander de Leon</name>
+            <email>alexander.deleon@bq.com</email>
+            <timezone>Europe/Madrid</timezone>
+            <roles>
+                <role>committer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Alberto J. Rubio</name>
+            <email>alberto.rubio@bq.com</email>
+            <timezone>Europe/Madrid</timezone>
+            <roles>
+                <role>committer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Anthanh Pham</name>
+            <email>anthanh.pham@bq.com</email>
+            <timezone>Europe/Madrid</timezone>
+            <roles>
+                <role>committer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Francisco Sánchez</name>
+            <email>francisco.sanchez@bq.com</email>
+            <timezone>Europe/Madrid</timezone>
+            <roles>
+                <role>committer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Ismael Madirolas</name>
+            <email>ismael.madirolas@bq.com</email>
+            <timezone>Europe/Madrid</timezone>
+            <roles>
+                <role>committer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Cristian del Cerro</name>
+            <email>cristian.delcerro@bq.com</email>
+            <timezone>Europe/Madrid</timezone>
+            <roles>
+                <role>committer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Rubén Carrasco</name>
+            <email>rcarrasco@bq.com</email>
+            <timezone>Europe/Madrid</timezone>
+            <roles>
+                <role>committer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Laura Sada</name>
+            <email>laura.sada@bq.com</email>
+            <timezone>Europe/Madrid</timezone>
+            <roles>
+                <role>committer</role>
+            </roles>
+        </developer>
+        <developer>
+            <name>Luis Miguel García</name>
+            <email>luismiguel.garcia@bq.com</email>
+            <timezone>Europe/Madrid</timezone>
+            <roles>
+                <role>committer</role>
+            </roles>
+        </developer>
+    </developers>
 </project>

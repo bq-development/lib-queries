@@ -1,17 +1,13 @@
 package io.corbel.lib.queries.parser;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.request.Aggregation;
-import io.corbel.lib.queries.request.AggregationOperator;
-import io.corbel.lib.queries.request.Average;
-import io.corbel.lib.queries.request.Max;
-import io.corbel.lib.queries.request.Min;
-import io.corbel.lib.queries.request.Sum;
 
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.corbel.lib.queries.exception.MalformedJsonQueryException;
+import io.corbel.lib.queries.request.*;
 
 /**
  * @author Rubén Carrasco
@@ -82,6 +78,14 @@ public class JacksonAggregationParserTest {
         Aggregation operation = parser.parse(opString);
         assertThat(operation).isInstanceOf(Min.class);
         assertThat(operation.getOperator()).isEqualTo(AggregationOperator.$MIN);
+    }
+
+    @Test
+    public void testCombine() throws MalformedJsonQueryException {
+        String opString = "{\"$combine\":{\"x\": \"$field1 + $field2\"}}";
+        Aggregation operation = parser.parse(opString);
+        assertThat(operation).isInstanceOf(Combine.class);
+        assertThat(operation.getOperator()).isEqualTo(AggregationOperator.$COMBINE);
     }
 
 }

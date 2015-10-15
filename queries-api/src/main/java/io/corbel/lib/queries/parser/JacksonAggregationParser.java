@@ -1,17 +1,12 @@
 package io.corbel.lib.queries.parser;
 
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.request.Aggregation;
-import io.corbel.lib.queries.request.AggregationOperator;
-import io.corbel.lib.queries.request.Average;
-import io.corbel.lib.queries.request.Count;
-import io.corbel.lib.queries.request.Max;
-import io.corbel.lib.queries.request.Min;
-import io.corbel.lib.queries.request.Sum;
-
 import java.util.Iterator;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import io.corbel.lib.queries.exception.MalformedJsonQueryException;
+import io.corbel.lib.queries.request.*;
 
 /**
  * @author Rubén Carrasco
@@ -26,8 +21,8 @@ public class JacksonAggregationParser implements AggregationParser {
     }
 
     @Override
-    public Aggregation parse(String aggregationString) throws MalformedJsonQueryException {
-        JsonNode node = jsonParser.readValueAsTree(aggregationString);
+    public Aggregation parse(String aggregation) throws MalformedJsonQueryException {
+        JsonNode node = jsonParser.readValueAsTree(aggregation);
         if (node.isObject()) {
             return getOperationFromNode(node);
         } else {
@@ -44,18 +39,22 @@ public class JacksonAggregationParser implements AggregationParser {
                 throw new MalformedJsonQueryException("Wrong number of fields (Expected one)");
             }
 
-            String textValue = node.get(key).textValue();
+
+            JsonNode value = node.get(key);
             switch (getOperator(key)) {
                 case $COUNT:
-                    return new Count(textValue);
+                    return new Count(value.asText());
                 case $AVG:
-                    return new Average(textValue);
+                    return new Average(value.asText());
                 case $SUM:
-                    return new Sum(textValue);
+                    return new Sum(value.asText());
                 case $MAX:
-                    return new Max(textValue);
+                    return new Max(value.asText());
                 case $MIN:
-                    return new Min(textValue);
+                    return new Min(value.asText());
+                case $COMBINE:
+                    Map.Entry<String, JsonNode> entry = value.fields().next();
+                    return new Combine(entry.getKey(), entry.getValue().asText());
                 default:
                     return null;
             }

@@ -1,22 +1,14 @@
 package io.corbel.lib.queries.builder;
 
-import io.corbel.lib.queries.exception.InvalidParameterException;
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.jaxrs.QueryParameters;
-import io.corbel.lib.queries.parser.AggregationParser;
-import io.corbel.lib.queries.parser.PaginationParser;
-import io.corbel.lib.queries.parser.QueryParser;
-import io.corbel.lib.queries.parser.SearchParser;
-import io.corbel.lib.queries.parser.SortParser;
-import io.corbel.lib.queries.request.Aggregation;
-import io.corbel.lib.queries.request.Pagination;
-import io.corbel.lib.queries.request.ResourceQuery;
-import io.corbel.lib.queries.request.Search;
-import io.corbel.lib.queries.request.Sort;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import io.corbel.lib.queries.exception.InvalidParameterException;
+import io.corbel.lib.queries.exception.MalformedJsonQueryException;
+import io.corbel.lib.queries.jaxrs.QueryParameters;
+import io.corbel.lib.queries.parser.*;
+import io.corbel.lib.queries.request.*;
 
 /**
  * @author Francisco Sanchez
@@ -63,9 +55,8 @@ public class QueryParametersBuilder {
     }
 
     private Optional<List<ResourceQuery>> buildResourceQueries(Optional<List<String>> optionalQueries) {
-        return optionalQueries.map(queries -> {
-            return queries.stream().map(stringQuery -> buildQuery(stringQuery, queryParser)).collect(Collectors.toList());
-        });
+        return optionalQueries
+                .map(queries -> queries.stream().map(stringQuery -> buildQuery(stringQuery, queryParser)).collect(Collectors.toList()));
     }
 
     private ResourceQuery buildQuery(String query, QueryParser queryParser) {

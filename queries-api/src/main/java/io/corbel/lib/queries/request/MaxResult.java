@@ -5,10 +5,10 @@ package io.corbel.lib.queries.request;
  *
  */
 public class MaxResult implements AggregationResult {
+
     private Object max;
 
     public MaxResult(Object max) {
-        super();
         this.max = max;
     }
 

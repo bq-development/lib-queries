@@ -7,14 +7,13 @@ import org.springframework.data.annotation.Id;
  */
 public class TestBean {
 
-	@Id
-	public String id;
+    @Id public String id;
 
-	public String a;
+    public String a;
 
-	public Integer b;
+    public Integer b;
 
-	public String c;
+    public String c;
 
-	public TestBean embeded;
+    public TestBean embeded;
 }

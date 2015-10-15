@@ -1,66 +1,57 @@
 package io.corbel.lib.queries;
 
-import io.corbel.lib.queries.exception.QueryMatchingException;
-import org.junit.Test;
+import static org.fest.assertions.api.Assertions.assertThat;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import static org.fest.assertions.api.Assertions.assertThat;
+import org.junit.Test;
+
+import io.corbel.lib.queries.exception.QueryMatchingException;
 
 public class ListQueryLiteralTest {
 
-	@Test
-	public void inTest() throws QueryMatchingException {
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-						new LongQueryLiteral(3l))).in(2)).isTrue();
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-						new LongQueryLiteral(3l))).in(4)).isFalse();
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new StringQueryLiteral("uno"), new StringQueryLiteral("dos"),
-						new StringQueryLiteral("tres"))).in("dos")).isTrue();
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new StringQueryLiteral("uno"), new StringQueryLiteral("dos"),
-						new StringQueryLiteral("tres"))).in("core")).isFalse();
-	}
+    @Test
+    public void inTest() throws QueryMatchingException {
+        assertThat(new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l), new LongQueryLiteral(3l))).in(2))
+                .isTrue();
+        assertThat(new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l), new LongQueryLiteral(3l))).in(4))
+                .isFalse();
+        assertThat(new ListQueryLiteral(
+                Arrays.asList(new StringQueryLiteral("uno"), new StringQueryLiteral("dos"), new StringQueryLiteral("tres"))).in("dos"))
+                        .isTrue();
+        assertThat(new ListQueryLiteral(
+                Arrays.asList(new StringQueryLiteral("uno"), new StringQueryLiteral("dos"), new StringQueryLiteral("tres"))).in("core"))
+                        .isFalse();
+    }
 
     @Test
     public void sizeTest() throws QueryMatchingException {
         assertThat(
-            new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-                        new LongQueryLiteral(3l))).size(3)).isTrue();
-        assertThat(
-            new ListQueryLiteral(Collections.emptyList()).size(0)).isTrue();
+                new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l), new LongQueryLiteral(3l))).size(3))
+                        .isTrue();
+        assertThat(new ListQueryLiteral(Collections.emptyList()).size(0)).isTrue();
     }
 
-	@Test
-	public void eqTest() throws QueryMatchingException {
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-						new LongQueryLiteral(3l))).eq(Arrays.asList(1, 2, 3))).isTrue();
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-						new LongQueryLiteral(3l))).eq(Arrays.asList(1, 2, 4))).isFalse();
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-						new LongQueryLiteral(3l))).eq(Arrays.asList(1, 2))).isFalse();
-	}
+    @Test
+    public void eqTest() throws QueryMatchingException {
+        assertThat(new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l), new LongQueryLiteral(3l)))
+                .eq(Arrays.asList(1, 2, 3))).isTrue();
+        assertThat(new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l), new LongQueryLiteral(3l)))
+                .eq(Arrays.asList(1, 2, 4))).isFalse();
+        assertThat(new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l), new LongQueryLiteral(3l)))
+                .eq(Arrays.asList(1, 2))).isFalse();
+    }
 
-	@Test
-	public void allTest() throws QueryMatchingException {
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-						new LongQueryLiteral(3l))).all(Arrays.asList(1, 2, 3, 4))).isTrue();
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-						new LongQueryLiteral(3l))).all(Arrays.asList(1, 2, 3))).isTrue();
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-						new LongQueryLiteral(3l))).all(Arrays.asList(1, 2, 4))).isFalse();
-		assertThat(
-				new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l),
-						new LongQueryLiteral(3l))).all(Arrays.asList(1, 2))).isFalse();
-	}
+    @Test
+    public void allTest() throws QueryMatchingException {
+        assertThat(new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l), new LongQueryLiteral(3l)))
+                .all(Arrays.asList(1, 2, 3, 4))).isTrue();
+        assertThat(new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l), new LongQueryLiteral(3l)))
+                .all(Arrays.asList(1, 2, 3))).isTrue();
+        assertThat(new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l), new LongQueryLiteral(3l)))
+                .all(Arrays.asList(1, 2, 4))).isFalse();
+        assertThat(new ListQueryLiteral(Arrays.asList(new LongQueryLiteral(1l), new LongQueryLiteral(2l), new LongQueryLiteral(3l)))
+                .all(Arrays.asList(1, 2))).isFalse();
+    }
 }

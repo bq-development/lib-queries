@@ -2,11 +2,6 @@ package io.corbel.lib.queries.parser;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.request.QueryLiteral;
-import io.corbel.lib.queries.request.QueryNode;
-import io.corbel.lib.queries.request.QueryOperator;
-import io.corbel.lib.queries.request.ResourceQuery;
 
 import java.time.Duration;
 import java.time.Period;
@@ -18,6 +13,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import io.corbel.lib.queries.exception.MalformedJsonQueryException;
+import io.corbel.lib.queries.request.QueryLiteral;
+import io.corbel.lib.queries.request.QueryNode;
+import io.corbel.lib.queries.request.QueryOperator;
+import io.corbel.lib.queries.request.ResourceQuery;
 
 public class JacksonQueryParserTest {
 

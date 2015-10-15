@@ -4,11 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import io.corbel.lib.queries.request.Aggregation;
-import io.corbel.lib.queries.request.Pagination;
-import io.corbel.lib.queries.request.ResourceQuery;
-import io.corbel.lib.queries.request.Search;
-import io.corbel.lib.queries.request.Sort;
+import io.corbel.lib.queries.request.*;
 
 
 /**
@@ -20,15 +16,16 @@ public class QueryParameters {
     private Optional<Sort> sort;
     private Optional<List<ResourceQuery>> queries;
     private Optional<List<ResourceQuery>> conditions;
-    private Optional<Aggregation> aggreagation;
+    private Optional<Aggregation> aggregation;
     private Optional<Search> search;
 
-    public QueryParameters(Pagination pagination, Optional<Sort> sort, Optional<List<ResourceQuery>> queries, Optional<List<ResourceQuery>> conditions, Optional<Aggregation> aggreagation, Optional<Search> search) {
+    public QueryParameters(Pagination pagination, Optional<Sort> sort, Optional<List<ResourceQuery>> queries,
+            Optional<List<ResourceQuery>> conditions, Optional<Aggregation> aggregation, Optional<Search> search) {
         this.pagination = pagination;
         this.sort = sort;
         this.queries = queries;
         this.conditions = conditions;
-        this.aggreagation = aggreagation;
+        this.aggregation = aggregation;
         this.search = search;
     }
 
@@ -37,7 +34,7 @@ public class QueryParameters {
         this.sort = other.sort;
         this.queries = other.queries;
         this.conditions = other.conditions;
-        this.aggreagation = other.aggreagation;
+        this.aggregation = other.aggregation;
         this.search = other.search;
     }
 
@@ -63,7 +60,7 @@ public class QueryParameters {
     }
 
     public void setQuery(Optional<ResourceQuery> optionalQuery) {
-        queries = Optional.ofNullable(optionalQuery.map(query -> Arrays.asList(query)).orElse(null));
+        queries = Optional.ofNullable(optionalQuery.map(Arrays::asList).orElse(null));
     }
 
     public Optional<List<ResourceQuery>> getQueries() {
@@ -91,10 +88,11 @@ public class QueryParameters {
     }
 
     public Optional<Aggregation> getAggregation() {
-        return aggreagation;
+        return aggregation;
     }
+
     public void setAggregation(Optional<Aggregation> aggregationOperation) {
-        this.aggreagation = aggregationOperation;
+        this.aggregation = aggregationOperation;
     }
 
 }
