@@ -1,5 +1,9 @@
 package io.corbel.lib.queries;
 
+import io.corbel.lib.queries.exception.QueryMatchingException;
+
+import java.util.List;
+
 public class LongQueryLiteral extends NumericQueryLiteral<Long> {
     public LongQueryLiteral() {
         super();
@@ -7,6 +11,12 @@ public class LongQueryLiteral extends NumericQueryLiteral<Long> {
 
     public LongQueryLiteral(Long literal) {
         super(literal);
+    }
+
+    @Override
+    protected boolean size(Object object) throws QueryMatchingException {
+        List objectList = (List) object;
+        return eq(objectList.size());
     }
 
     @Override
