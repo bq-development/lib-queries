@@ -44,7 +44,7 @@ public abstract class FieldAggregation implements Aggregation {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        Count other = (Count) obj;
+        FieldAggregation other = (FieldAggregation) obj;
         if (field == null) {
             if (other.field != null) {
                 return false;
