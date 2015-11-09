@@ -88,4 +88,12 @@ public class JacksonAggregationParserTest {
         assertThat(operation.getOperator()).isEqualTo(AggregationOperator.$COMBINE);
     }
 
+    @Test
+    public void testHistogram() throws MalformedJsonQueryException {
+        String opString = "{\"$histogram\":\"x\"}";
+        Aggregation operation = parser.parse(opString);
+        assertThat(operation).isInstanceOf(Histogram.class);
+        assertThat(operation.getOperator()).isEqualTo(AggregationOperator.$HISTOGRAM);
+    }
+
 }

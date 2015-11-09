@@ -55,6 +55,8 @@ public class JacksonAggregationParser implements AggregationParser {
                 case $COMBINE:
                     Map.Entry<String, JsonNode> entry = value.fields().next();
                     return new Combine(entry.getKey(), entry.getValue().asText());
+                case $HISTOGRAM:
+                    return new Histogram(value.asText());
                 default:
                     return null;
             }
