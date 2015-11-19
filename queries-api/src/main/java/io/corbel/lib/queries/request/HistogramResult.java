@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * The result of a Histogram aggregation is a List of HistogramValue
  *
- * @author Alexander De Leon <alex.deleon@devialab.com>
+ * @author Alexander De Leon
  */
 public class HistogramResult extends ArrayList<HistogramResult.HistogramValue> implements AggregationResult {
 

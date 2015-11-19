@@ -5,7 +5,7 @@ package io.corbel.lib.queries.request;
  *
  * @see HistogramResult
  *
- * @author Alexander De Leon <alex.deleon@devialab.com>
+ * @author Alexander De Leon
  */
 public class Histogram extends FieldAggregation {
 
