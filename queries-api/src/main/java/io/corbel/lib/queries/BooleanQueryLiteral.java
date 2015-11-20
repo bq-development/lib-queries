@@ -5,6 +5,14 @@ import io.corbel.lib.queries.request.QueryLiteral;
 
 public class BooleanQueryLiteral extends QueryLiteral<Boolean> {
 
+    public BooleanQueryLiteral() {
+        super();
+    }
+
+    public BooleanQueryLiteral(Boolean bool) {
+        super(bool);
+    }
+
     @Override
     protected boolean eq(Object object) throws QueryMatchingException {
         return literal.equals(object);
