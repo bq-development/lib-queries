@@ -1,13 +1,17 @@
 package io.corbel.lib.queries.builder;
 
 import static org.fest.assertions.api.Assertions.assertThat;
-
-import org.junit.Test;
-
+import io.corbel.lib.queries.ListQueryLiteral;
 import io.corbel.lib.queries.exception.MalformedJsonQueryException;
 import io.corbel.lib.queries.request.QueryNode;
 import io.corbel.lib.queries.request.QueryOperator;
 import io.corbel.lib.queries.request.ResourceQuery;
+
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+
+import org.junit.Test;
 
 /**
  * @author Rubén Carrasco
@@ -54,6 +58,61 @@ public class ResourceQueryBuilderTest {
     public void testRemoveEmpty() {
         ResourceQuery query = new ResourceQueryBuilder().remove(FIELD).build();
         assertThat(query.iterator().hasNext()).isFalse();
+    }
+
+    @Test
+    public void testAddStringList() {
+        List<String> list = Arrays.asList("asdf", "qwer");
+        ResourceQuery query = new ResourceQueryBuilder().add(FIELD, list, QueryOperator.$IN).build();
+        QueryNode node = query.iterator().next();
+        ListQueryLiteral listQueryLiteral = (ListQueryLiteral) query.iterator().next().getValue();
+        assertThat(listQueryLiteral.getLiterals().get(0)).isEqualTo("asdf");
+        assertThat(listQueryLiteral.getLiterals().get(1)).isEqualTo("qwer");
+        assertThat(node.getOperator()).isEqualTo(QueryOperator.$IN);
+    }
+
+    @Test
+    public void testAddBooleanList() {
+        List<Boolean> list = Arrays.asList(true, false);
+        ResourceQuery query = new ResourceQueryBuilder().add(FIELD, list, QueryOperator.$IN).build();
+        QueryNode node = query.iterator().next();
+        ListQueryLiteral listQueryLiteral = (ListQueryLiteral) query.iterator().next().getValue();
+        assertThat(listQueryLiteral.getLiterals().get(0)).isEqualTo(true);
+        assertThat(listQueryLiteral.getLiterals().get(1)).isEqualTo(false);
+        assertThat(node.getOperator()).isEqualTo(QueryOperator.$IN);
+    }
+
+    @Test
+    public void testAddDoubleList() {
+        List<Double> list = Arrays.asList(1.2d, 2.3d);
+        ResourceQuery query = new ResourceQueryBuilder().add(FIELD, list, QueryOperator.$IN).build();
+        QueryNode node = query.iterator().next();
+        ListQueryLiteral listQueryLiteral = (ListQueryLiteral) query.iterator().next().getValue();
+        assertThat(listQueryLiteral.getLiterals().get(0)).isEqualTo(1.2d);
+        assertThat(listQueryLiteral.getLiterals().get(1)).isEqualTo(2.3d);
+        assertThat(node.getOperator()).isEqualTo(QueryOperator.$IN);
+    }
+
+    @Test
+    public void testAddLongList() {
+        List<Long> list = Arrays.asList(1l, 3l);
+        ResourceQuery query = new ResourceQueryBuilder().add(FIELD, list, QueryOperator.$IN).build();
+        QueryNode node = query.iterator().next();
+        ListQueryLiteral listQueryLiteral = (ListQueryLiteral) query.iterator().next().getValue();
+        assertThat(listQueryLiteral.getLiterals().get(0)).isEqualTo(1l);
+        assertThat(listQueryLiteral.getLiterals().get(1)).isEqualTo(3l);
+        assertThat(node.getOperator()).isEqualTo(QueryOperator.$IN);
+    }
+
+    @Test
+    public void testAddDateList() {
+        Date date = new Date();
+        List<Date> list = Arrays.asList(date);
+        ResourceQuery query = new ResourceQueryBuilder().add(FIELD, list, QueryOperator.$IN).build();
+        QueryNode node = query.iterator().next();
+        ListQueryLiteral listQueryLiteral = (ListQueryLiteral) query.iterator().next().getValue();
+        assertThat(listQueryLiteral.getLiterals().get(0)).isEqualTo(date);
+        assertThat(node.getOperator()).isEqualTo(QueryOperator.$IN);
     }
 
 }
