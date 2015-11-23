@@ -7,6 +7,7 @@ import io.corbel.lib.queries.ListQueryLiteral;
 import io.corbel.lib.queries.LongQueryLiteral;
 import io.corbel.lib.queries.QueryNodeImpl;
 import io.corbel.lib.queries.StringQueryLiteral;
+import io.corbel.lib.queries.request.QueryLiteral;
 import io.corbel.lib.queries.request.QueryNode;
 import io.corbel.lib.queries.request.QueryOperator;
 import io.corbel.lib.queries.request.ResourceQuery;
@@ -123,39 +124,35 @@ public class ResourceQueryBuilder {
         if (value == null || value.isEmpty()) {
             literal = new ListQueryLiteral(value);
         } else {
-            Object elem = value.get(0);
-            if (elem instanceof String) {
-                List<StringQueryLiteral> values = ((List<String>) value).stream().map(e -> new StringQueryLiteral(e))
-                        .collect(Collectors.toList());
-                literal = new ListQueryLiteral(values);
-            } else if (elem instanceof Boolean) {
-                List<BooleanQueryLiteral> values = ((List<Boolean>) value).stream().map(e -> new BooleanQueryLiteral(e))
-                        .collect(Collectors.toList());
-                literal = new ListQueryLiteral(values);
-            } else if (elem instanceof Double) {
-                List<DoubleQueryLiteral> values = ((List<Double>) value).stream().map(e -> new DoubleQueryLiteral(e))
-                        .collect(Collectors.toList());
-                literal = new ListQueryLiteral(values);
-            } else if (elem instanceof Long) {
-                List<LongQueryLiteral> values = ((List<Long>) value).stream().map(e -> new LongQueryLiteral(e))
-                        .collect(Collectors.toList());
-                literal = new ListQueryLiteral(values);
-            } else if (elem instanceof Integer) {
-                List<LongQueryLiteral> values = ((List<Integer>) value).stream().map(e -> new LongQueryLiteral(new Long(e)))
-                        .collect(Collectors.toList());
-                literal = new ListQueryLiteral(values);
-            } else if (elem instanceof Date) {
-                List<DateQueryLiteral> values = ((List<Date>) value).stream().map(e -> new DateQueryLiteral(e))
-                        .collect(Collectors.toList());
-                literal = new ListQueryLiteral(values);
-            } else {
-                literal = new ListQueryLiteral(value);
-            }
+            literal = new ListQueryLiteral(listToQueryLiteralList(value));
         }
 
         QueryNodeImpl queryNode = new QueryNodeImpl(operator, field, literal);
         resourceQuery.addQueryNode(queryNode);
         return this;
+    }
+
+    private List listToQueryLiteralList(List list) {
+        Object elem = list.get(0);
+        if (elem instanceof String) {
+            return ((List<String>) list).stream().map(e -> new StringQueryLiteral(e)).collect(Collectors.toList());
+        } else if (elem instanceof Boolean) {
+            return ((List<Boolean>) list).stream().map(e -> new BooleanQueryLiteral(e)).collect(Collectors.toList());
+        } else if (elem instanceof Double) {
+            return ((List<Double>) list).stream().map(e -> new DoubleQueryLiteral(e)).collect(Collectors.toList());
+        } else if (elem instanceof Long) {
+            return ((List<Long>) list).stream().map(e -> new LongQueryLiteral(e)).collect(Collectors.toList());
+        } else if (elem instanceof Integer) {
+            return ((List<Integer>) list).stream().map(e -> new LongQueryLiteral(new Long(e))).collect(Collectors.toList());
+        } else if (elem instanceof Date) {
+            return ((List<Date>) list).stream().map(e -> new DateQueryLiteral(e)).collect(Collectors.toList());
+        } else if (elem instanceof QueryLiteral) {
+            return list;
+        } else if (elem instanceof List) {
+            return ((List<List>) list).stream().map(e -> new ListQueryLiteral(e)).collect(Collectors.toList());
+        } else {
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
