@@ -1,91 +1,101 @@
 package io.corbel.lib.queries.builder;
 
+import io.corbel.lib.queries.jaxrs.QueryParameters;
+import io.corbel.lib.queries.request.Aggregation;
+import io.corbel.lib.queries.request.Pagination;
+import io.corbel.lib.queries.request.ResourceQuery;
+import io.corbel.lib.queries.request.Search;
+import io.corbel.lib.queries.request.Sort;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
-import io.corbel.lib.queries.exception.InvalidParameterException;
-import io.corbel.lib.queries.exception.MalformedJsonQueryException;
-import io.corbel.lib.queries.jaxrs.QueryParameters;
-import io.corbel.lib.queries.parser.*;
-import io.corbel.lib.queries.request.*;
 
 /**
- * @author Francisco Sanchez
+ * @author Rubén Carrasco
+ *
  */
 public class QueryParametersBuilder {
 
-    private final QueryParser queryParser;
-    private final AggregationParser aggregationParser;
-    private final SortParser sortParser;
-    private final PaginationParser paginationParser;
-    private final SearchParser searchParser;
+    private Pagination pagination;
+    private Sort sort;
+    private List<ResourceQuery> queries;
+    private List<ResourceQuery> conditions;
+    private Aggregation aggregation;
+    private Search search;
 
-    public QueryParametersBuilder(QueryParser queryParser, AggregationParser aggregationParser, SortParser sortParser,
-            PaginationParser paginationParser, SearchParser searchParser) {
-        this.queryParser = queryParser;
-        this.aggregationParser = aggregationParser;
-        this.sortParser = sortParser;
-        this.paginationParser = paginationParser;
-        this.searchParser = searchParser;
+    public QueryParametersBuilder() {}
+
+    public QueryParametersBuilder(QueryParameters queryParameters) {
+        this.pagination = queryParameters.getPagination();
+        this.sort = queryParameters.getSort().get();
+        this.queries = queryParameters.getQueries().get();
+        this.conditions = queryParameters.getConditions().get();
+        this.aggregation = queryParameters.getAggregation().get();
+        this.search = queryParameters.getSearch().get();
     }
 
-    public QueryParameters createQueryParameters(int page, int pageSize, int maxPageSize, Optional<String> sort,
-            Optional<List<String>> queries, Optional<List<String>> conditions, Optional<String> aggregation, Optional<String> search,
-            boolean binded) {
-        return new QueryParameters(buildPagination(page, pageSize, maxPageSize), buildSort(sort), buildResourceQueries(queries),
-                buildResourceQueries(conditions), buildAggregation(aggregation), buildSearch(search, binded));
+    public QueryParameters build() {
+        return new QueryParameters(pagination, Optional.ofNullable(sort), Optional.ofNullable(queries), Optional.ofNullable(conditions),
+                Optional.ofNullable(aggregation), Optional.ofNullable(search));
     }
 
-    public QueryParameters createQueryParameters(int page, int pageSize, int maxPageSize, Optional<String> sort,
-            Optional<List<String>> queries, Optional<List<String>> conditions, Optional<String> aggregation, Optional<String> search) {
-        return createQueryParameters(page, pageSize, maxPageSize, sort, queries, conditions, aggregation, search, false);
+    public QueryParametersBuilder pagination(Pagination pagination) {
+        this.pagination = pagination;
+        return this;
     }
 
-    private Pagination buildPagination(int page, int pageSize, int maxPageSize) {
-        return paginationParser.parse(page, pageSize, maxPageSize);
+    public QueryParametersBuilder sort(Sort sort) {
+        this.sort = sort;
+        return this;
     }
 
-    private Optional<Sort> buildSort(Optional<String> sort) {
-        try {
-            return sort.isPresent() ? Optional.of(sortParser.parse(sort.get())) : Optional.empty();
-        } catch (MalformedJsonQueryException | IllegalArgumentException e) {
-            throw new InvalidParameterException(InvalidParameterException.Parameter.SORT, sort, e.getMessage(), e);
+    public QueryParametersBuilder queries(List<ResourceQuery> queries) {
+        this.queries = queries;
+        return this;
+    }
+
+    public QueryParametersBuilder queries(ResourceQuery... queries) {
+        this.queries = Arrays.asList(queries);
+        return this;
+    }
+
+    public QueryParametersBuilder query(ResourceQuery query) {
+        if (queries == null) {
+            queries = new ArrayList<>();
         }
+        queries.add(query);
+        return this;
     }
 
-    private Optional<List<ResourceQuery>> buildResourceQueries(Optional<List<String>> optionalQueries) {
-        return optionalQueries
-                .map(queries -> queries.stream().map(stringQuery -> buildQuery(stringQuery, queryParser)).collect(Collectors.toList()));
+    public QueryParametersBuilder conditions(List<ResourceQuery> conditions) {
+        this.conditions = conditions;
+        return this;
     }
 
-    private ResourceQuery buildQuery(String query, QueryParser queryParser) {
-        try {
-            return queryParser.parse(query);
-        } catch (MalformedJsonQueryException e) {
-            throw new InvalidParameterException(InvalidParameterException.Parameter.QUERY, query, e.getMessage(), e);
+    public QueryParametersBuilder conditions(ResourceQuery... conditions) {
+        this.conditions = Arrays.asList(conditions);
+        return this;
+    }
+
+    public QueryParametersBuilder condition(ResourceQuery condition) {
+        if (conditions == null) {
+            conditions = new ArrayList<>();
         }
+        conditions.add(condition);
+        return this;
     }
 
-    private Optional<Aggregation> buildAggregation(Optional<String> aggregation) {
-        if (aggregation.isPresent()) {
-            try {
-                return Optional.of(aggregationParser.parse(aggregation.get()));
-            } catch (MalformedJsonQueryException e) {
-                throw new InvalidParameterException(InvalidParameterException.Parameter.AGGREGATION, aggregation, e.getMessage(), e);
-            }
-        }
-        return Optional.empty();
+    public QueryParametersBuilder aggregation(Aggregation aggregation) {
+        this.aggregation = aggregation;
+        return this;
     }
 
-    private Optional<Search> buildSearch(Optional<String> optionalSearch, boolean binded) {
-        if (optionalSearch.isPresent()) {
-            try {
-                return Optional.of(searchParser.parse(optionalSearch.get(), binded));
-            } catch (MalformedJsonQueryException e) {
-                throw new InvalidParameterException(InvalidParameterException.Parameter.SEARCH, optionalSearch, e.getMessage(), e);
-            }
-        }
-        return Optional.empty();
+    public QueryParametersBuilder search(Search search) {
+        this.search = search;
+        return this;
     }
+
 }
