@@ -1,4 +1,4 @@
-package io.corbel.lib.queries.builder;
+package io.corbel.lib.queries.parser;
 
 import static org.fest.assertions.api.Assertions.assertThat;
 import static org.mockito.Matchers.any;
@@ -22,7 +22,7 @@ import io.corbel.lib.queries.request.*;
 /**
  * @author Francisco Sanchez
  */
-public class QueryParametersFactoryTest {
+public class QueryParametersParserTest {
     private static final int TEST_PAGE = 1;
     private static final int TEST_PAGE_SIZE = 2;
     private static final int TEST_MAX_PAGE_SIZE = TEST_PAGE_SIZE + 1;
@@ -66,7 +66,7 @@ public class QueryParametersFactoryTest {
     private SortParser sortParserMock;
     private PaginationParser paginationParserMock;
     private SearchParser searchParserMock;
-    private QueryParametersFactory queryParametersFactory;
+    private QueryParametersParser queryParametersParser;
 
     @Before
     public void before() {
@@ -75,7 +75,7 @@ public class QueryParametersFactoryTest {
         sortParserMock = mock(SortParser.class);
         paginationParserMock = mock(PaginationParser.class);
         searchParserMock = mock(SearchParser.class);
-        queryParametersFactory = new QueryParametersFactory(queryParserMock, aggregationParserMock, sortParserMock, paginationParserMock,
+        queryParametersParser = new QueryParametersParser(queryParserMock, aggregationParserMock, sortParserMock, paginationParserMock,
                 searchParserMock);
     }
 
@@ -89,7 +89,7 @@ public class QueryParametersFactoryTest {
         when(aggregationParserMock.parse(TEST_AGGREGATION.get())).thenReturn(TEST_AGGREGATION_PARSED);
         when(searchParserMock.parse(TEST_SEARCH.get(), false)).thenReturn(TEST_SEARCH_PARSED);
 
-        QueryParameters queryParameters = queryParametersFactory.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
+        QueryParameters queryParameters = queryParametersParser.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
                 TEST_SORT, TEST_OPTIONAL_LIST_QUERIES, TEST_OPTIONAL_LIST_CONDITIONS, TEST_AGGREGATION, TEST_SEARCH);
 
         assertThat(queryParameters.getPagination().getPageSize()).isEqualTo(TEST_PAGE);
@@ -108,7 +108,7 @@ public class QueryParametersFactoryTest {
         when(paginationParserMock.parse(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE))
                 .thenReturn(new Pagination(TEST_PAGE_SIZE, TEST_PAGE));
 
-        QueryParameters queryParameters = queryParametersFactory.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
+        QueryParameters queryParameters = queryParametersParser.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
                 TEST_SORT_EMPTY, TEST_OPTIONAL_LIST_QUERIES_EMPTY, TEST_OPTIONAL_LIST_CONDITIONS_EMPTY, TEST_AGGREGATION_EMPTY,
                 TEST_SEARCH_EMPTY);
 
@@ -128,7 +128,7 @@ public class QueryParametersFactoryTest {
     public void queryParametersBadQueryTest() throws QueryMatchingException, MalformedJsonQueryException {
         when(queryParserMock.parse(any())).thenThrow(MalformedJsonQueryException.class);
 
-        queryParametersFactory.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE, TEST_SORT_EMPTY,
+        queryParametersParser.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE, TEST_SORT_EMPTY,
                 TEST_OPTIONAL_LIST_QUERIES, TEST_OPTIONAL_LIST_CONDITIONS, TEST_AGGREGATION_EMPTY, TEST_SEARCH_EMPTY);
     }
 
@@ -136,7 +136,7 @@ public class QueryParametersFactoryTest {
     public void queryParametersBadSortTest() throws QueryMatchingException, MalformedJsonQueryException {
         when(sortParserMock.parse(any())).thenThrow(MalformedJsonQueryException.class);
 
-        queryParametersFactory.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE, TEST_SORT,
+        queryParametersParser.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE, TEST_SORT,
                 TEST_OPTIONAL_LIST_QUERIES_EMPTY, TEST_OPTIONAL_LIST_CONDITIONS_EMPTY, TEST_AGGREGATION_EMPTY, TEST_SEARCH_EMPTY);
     }
 
@@ -144,14 +144,14 @@ public class QueryParametersFactoryTest {
     public void queryParametersBadAggregationTest() throws QueryMatchingException, MalformedJsonQueryException {
         when(aggregationParserMock.parse(any())).thenThrow(MalformedJsonQueryException.class);
 
-        queryParametersFactory.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE, TEST_SORT_EMPTY,
+        queryParametersParser.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE, TEST_SORT_EMPTY,
                 TEST_OPTIONAL_LIST_QUERIES_EMPTY, TEST_OPTIONAL_LIST_CONDITIONS_EMPTY, TEST_AGGREGATION, TEST_SEARCH_EMPTY);
     }
 
     @Test(expected = InvalidParameterException.class)
     public void queryParametersPageSizeBiggerThanMaxTest() throws QueryMatchingException, MalformedJsonQueryException {
         when(paginationParserMock.parse(TEST_PAGE_BIG_SIZE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE)).thenThrow(InvalidParameterException.class);
-        queryParametersFactory.createQueryParameters(TEST_PAGE_BIG_SIZE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE, TEST_SORT_EMPTY,
+        queryParametersParser.createQueryParameters(TEST_PAGE_BIG_SIZE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE, TEST_SORT_EMPTY,
                 TEST_OPTIONAL_LIST_QUERIES_EMPTY, TEST_OPTIONAL_LIST_CONDITIONS_EMPTY, TEST_AGGREGATION_EMPTY, TEST_SEARCH_EMPTY);
     }
 
@@ -164,7 +164,7 @@ public class QueryParametersFactoryTest {
         when(aggregationParserMock.parse(TEST_AGGREGATION.get())).thenReturn(TEST_AGGREGATION_PARSED);
         when(searchParserMock.parse(TEST_SEARCH.get(), false)).thenReturn(TEST_SEARCH_PARSED);
 
-        QueryParameters queryParameters = queryParametersFactory.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
+        QueryParameters queryParameters = queryParametersParser.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
                 TEST_SORT, TEST_OPTIONAL_QUERY, TEST_OPTIONAL_LIST_CONDITIONS, TEST_AGGREGATION, TEST_SEARCH);
 
         assertThat(queryParameters.getPagination().getPageSize()).isEqualTo(TEST_PAGE);
@@ -180,7 +180,7 @@ public class QueryParametersFactoryTest {
 
     @Test
     public void queryParametersSetQueryTest() throws QueryMatchingException, MalformedJsonQueryException {
-        QueryParameters queryParameters = queryParametersFactory.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
+        QueryParameters queryParameters = queryParametersParser.createQueryParameters(TEST_PAGE, TEST_PAGE_SIZE, TEST_MAX_PAGE_SIZE,
                 TEST_SORT_EMPTY, TEST_OPTIONAL_LIST_QUERIES_EMPTY, TEST_OPTIONAL_LIST_CONDITIONS_EMPTY, TEST_AGGREGATION_EMPTY,
                 TEST_SEARCH_EMPTY);
 

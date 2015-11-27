@@ -1,4 +1,4 @@
-package io.corbel.lib.queries.builder;
+package io.corbel.lib.queries.parser;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,7 +13,7 @@ import io.corbel.lib.queries.request.*;
 /**
  * @author Francisco Sanchez
  */
-public class QueryParametersFactory {
+public class QueryParametersParser {
 
     private final QueryParser queryParser;
     private final AggregationParser aggregationParser;
@@ -21,7 +21,7 @@ public class QueryParametersFactory {
     private final PaginationParser paginationParser;
     private final SearchParser searchParser;
 
-    public QueryParametersFactory(QueryParser queryParser, AggregationParser aggregationParser, SortParser sortParser,
+    public QueryParametersParser(QueryParser queryParser, AggregationParser aggregationParser, SortParser sortParser,
             PaginationParser paginationParser, SearchParser searchParser) {
         this.queryParser = queryParser;
         this.aggregationParser = aggregationParser;
