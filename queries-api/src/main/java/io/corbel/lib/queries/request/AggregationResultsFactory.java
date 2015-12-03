@@ -1,80 +1,25 @@
 package io.corbel.lib.queries.request;
 
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.Optional;
 
 /**
- * This class offers factory methods for all aggregations results
- *
  * @author Alexander De Leon <alex.deleon@devialab.com>
  */
-public class AggregationResultsFactory {
+public interface AggregationResultsFactory<T> {
 
-    private static final String AVERAGE = "average";
-    private static final String COUNT = "count";
-    private static final String MAX = "max";
-    private static final String MIN = "min";
-    private static final String SUM = "sum";
-
-    private Gson gson = new Gson();
-
-    public AggregationResultsFactory(Gson gson){
-        this.gson = gson;
-    }
-
-    public AggregationResultsFactory() {
-        this(new Gson());
-    }
-
-    public JsonObject averageResult(Optional<Double> average) {
-        JsonElement value =  average.map(JsonPrimitive::new).orElse(null);
-        return json(new JsonField(AVERAGE, value));
-    }
+    T averageResult(Optional<Double> average);
 
     /* count should never be empty */
-    public JsonObject countResult(long count) {
-        JsonElement value =  new JsonPrimitive(count);
-        return json(new JsonField(COUNT, value));
-    }
+    T countResult(long count);
 
-    public JsonObject maxResult(Optional<Object> max) {
-        JsonElement value =  max.map(gson::toJsonTree).orElse(null);
-        return json(new JsonField(MAX, value));
-    }
+    T maxResult(Optional<Object> max);
 
-    public JsonObject minResult(Optional<Object> min) {
-        JsonElement value =  min.map(gson::toJsonTree).orElse(null);
-        return json(new JsonField(MIN, value));
-    }
+    T minResult(Optional<Object> min);
 
-    public JsonObject sumResult(Optional<Double> sum) {
-        JsonElement value =  sum.map(JsonPrimitive::new).orElse(null);
-        return json(new JsonField(SUM, value));
-    }
+    T sumResult(Optional<Double> sum);
 
-    public JsonArray histogramResult(HistogramEntry ... entries) {
-        return gson.toJsonTree(entries).getAsJsonArray();
-    }
-
-    /**
-     * Create a JsonObject with the specified fields
-     */
-    private JsonObject json(JsonField... fields){
-        JsonObject json = new JsonObject();
-        for(JsonField field : fields){
-            json.add(field.key, field.value);
-        }
-        return json;
-    }
-
-    /** Helper class for in-line json creation */
-    private class JsonField {
-        final String key;
-        final JsonElement value;
-        public JsonField(String key, JsonElement value){
-            this.key = key;
-            this.value = value;
-        }
-    }
-
+    T histogramResult(HistogramEntry... entries);
 }

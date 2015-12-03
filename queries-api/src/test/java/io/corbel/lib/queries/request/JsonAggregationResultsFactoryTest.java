@@ -13,9 +13,9 @@ import static org.fest.assertions.api.Assertions.assertThat;
 /**
  * @author Alexander De Leon <alex.deleon@devialab.com>
  */
-public class AggregationResultsFactoryTest {
+public class JsonAggregationResultsFactoryTest {
 
-    private AggregationResultsFactory factory = new AggregationResultsFactory();
+    private JsonAggregationResultsFactory factory = new JsonAggregationResultsFactory();
 
     @Test
     public void testAverageResult(){
