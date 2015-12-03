@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import io.corbel.lib.queries.request.AggregationResult;
 import io.corbel.lib.queries.request.Pagination;
 import io.corbel.lib.queries.request.ResourceQuery;
 import io.corbel.lib.queries.request.Sort;
@@ -44,6 +43,6 @@ public interface GenericFindRepository<E, ID extends Serializable> extends Mongo
      * @param resourceQuery Object with the assertions for finding
      * @return the number of E Objects that match the query
      */
-    AggregationResult count(ResourceQuery resourceQuery);
+    long count(ResourceQuery resourceQuery);
 
 }

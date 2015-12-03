@@ -43,8 +43,8 @@ public class FindExtendedRepository<E, ID extends Serializable> extends Extended
     }
 
     @Override
-    public AggregationResult count(ResourceQuery resourceQuery) {
+    public long count(ResourceQuery resourceQuery) {
         Query query = new MongoQueryBuilder().query(resourceQuery).build();
-        return new CountResult(mongoOperations.count(query, metadata.getCollectionName()));
+        return mongoOperations.count(query, metadata.getCollectionName());
     }
 }
