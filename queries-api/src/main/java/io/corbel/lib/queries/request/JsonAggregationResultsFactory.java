@@ -1,12 +1,17 @@
 package io.corbel.lib.queries.request;
 
-import com.google.gson.*;
 import java.util.Optional;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 /**
  * This class offers factory methods for all aggregations results
  *
- * @author Alexander De Leon <alex.deleon@devialab.com>
+ * @author Alexander De Leon
  */
 public class JsonAggregationResultsFactory implements AggregationResultsFactory<JsonElement> {
 
@@ -18,7 +23,7 @@ public class JsonAggregationResultsFactory implements AggregationResultsFactory<
 
     private Gson gson = new Gson();
 
-    public JsonAggregationResultsFactory(Gson gson){
+    public JsonAggregationResultsFactory(Gson gson) {
         this.gson = gson;
     }
 
@@ -28,32 +33,32 @@ public class JsonAggregationResultsFactory implements AggregationResultsFactory<
 
     @Override
     public JsonObject averageResult(Optional<Double> average) {
-        JsonElement value =  average.map(JsonPrimitive::new).orElse(null);
+        JsonElement value = average.map(JsonPrimitive::new).orElse(null);
         return json(new JsonField(AVERAGE, value));
     }
 
     /* count should never be empty */
     @Override
     public JsonObject countResult(long count) {
-        JsonElement value =  new JsonPrimitive(count);
+        JsonElement value = new JsonPrimitive(count);
         return json(new JsonField(COUNT, value));
     }
 
     @Override
     public JsonObject maxResult(Optional<Object> max) {
-        JsonElement value =  max.map(gson::toJsonTree).orElse(null);
+        JsonElement value = max.map(gson::toJsonTree).orElse(null);
         return json(new JsonField(MAX, value));
     }
 
     @Override
     public JsonObject minResult(Optional<Object> min) {
-        JsonElement value =  min.map(gson::toJsonTree).orElse(null);
+        JsonElement value = min.map(gson::toJsonTree).orElse(null);
         return json(new JsonField(MIN, value));
     }
 
     @Override
     public JsonObject sumResult(Optional<Double> sum) {
-        JsonElement value =  sum.map(JsonPrimitive::new).orElse(null);
+        JsonElement value = sum.map(JsonPrimitive::new).orElse(null);
         return json(new JsonField(SUM, value));
     }
 
@@ -65,9 +70,9 @@ public class JsonAggregationResultsFactory implements AggregationResultsFactory<
     /**
      * Create a JsonObject with the specified fields
      */
-    private JsonObject json(JsonField... fields){
+    private JsonObject json(JsonField... fields) {
         JsonObject json = new JsonObject();
-        for(JsonField field : fields){
+        for (JsonField field : fields) {
             json.add(field.key, field.value);
         }
         return json;
@@ -77,7 +82,8 @@ public class JsonAggregationResultsFactory implements AggregationResultsFactory<
     private class JsonField {
         final String key;
         final JsonElement value;
-        public JsonField(String key, JsonElement value){
+
+        public JsonField(String key, JsonElement value) {
             this.key = key;
             this.value = value;
         }
