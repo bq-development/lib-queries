@@ -1,13 +1,11 @@
 package io.corbel.lib.queries.request;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
 import java.util.Optional;
 
 /**
- * @author Alexander De Leon <alex.deleon@devialab.com>
+ * @author Alexander De Leon
  */
+
 public interface AggregationResultsFactory<T> {
 
     T averageResult(Optional<Double> average);
