@@ -92,6 +92,6 @@ public class ListQueryLiteral extends QueryLiteral<List<QueryLiteral>> {
 
     @Override
     public String toString() {
-        return literal.stream().map(item -> item.getLiteral().toString()).collect(Collectors.joining(",", "[", "]"));
+        return literal.stream().map(item -> item.toString()).collect(Collectors.joining(",", "[", "]"));
     }
 }
