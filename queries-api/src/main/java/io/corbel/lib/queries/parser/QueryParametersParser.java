@@ -32,9 +32,9 @@ public class QueryParametersParser {
 
     public QueryParameters createQueryParameters(int page, int pageSize, int maxPageSize, Optional<String> sort,
             Optional<List<String>> queries, Optional<List<String>> conditions, Optional<String> aggregation, Optional<String> search,
-            boolean binded) {
+            boolean indexFieldsOnly) {
         return new QueryParameters(buildPagination(page, pageSize, maxPageSize), buildSort(sort), buildResourceQueries(queries),
-                buildResourceQueries(conditions), buildAggregation(aggregation), buildSearch(search, binded));
+                buildResourceQueries(conditions), buildAggregation(aggregation), buildSearch(search, indexFieldsOnly));
     }
 
     public QueryParameters createQueryParameters(int page, int pageSize, int maxPageSize, Optional<String> sort,
@@ -78,10 +78,10 @@ public class QueryParametersParser {
         return Optional.empty();
     }
 
-    private Optional<Search> buildSearch(Optional<String> optionalSearch, boolean binded) {
+    private Optional<Search> buildSearch(Optional<String> optionalSearch, boolean indexFieldsOnly) {
         if (optionalSearch.isPresent()) {
             try {
-                return Optional.of(searchParser.parse(optionalSearch.get(), binded));
+                return Optional.of(searchParser.parse(optionalSearch.get(), indexFieldsOnly));
             } catch (MalformedJsonQueryException e) {
                 throw new InvalidParameterException(InvalidParameterException.Parameter.SEARCH, optionalSearch, e.getMessage(), e);
             }

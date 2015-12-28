@@ -28,7 +28,7 @@ public class CustomSearchParserTest {
         String searchString = "text";
         Search search = parser.parse(searchString, false);
         assertThat(search.getText().get()).isEqualTo("text");
-        assertThat(search.isBinded()).isFalse();
+        assertThat(search.indexFieldsOnly()).isFalse();
     }
 
     @Test
@@ -36,7 +36,7 @@ public class CustomSearchParserTest {
         String searchString = "{\"templateName\": \"name\", \"params\": {}}";
         Search search = parser.parse(searchString, true);
         assertThat(search.getTemplate().get()).isEqualTo("name");
-        assertThat(search.isBinded()).isTrue();
+        assertThat(search.indexFieldsOnly()).isTrue();
     }
 
     @Test(expected = MalformedJsonQueryException.class)

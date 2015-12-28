@@ -26,14 +26,14 @@ public class CustomSearchParser implements SearchParser {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Search parse(String searchString, boolean binded) throws MalformedJsonQueryException {
+    public Search parse(String searchString, boolean indexFieldsOnly) throws MalformedJsonQueryException {
         try {
             Map<String, Object> map = mapper.readValue(searchString, HashMap.class);
-            return new Search(binded, getTemplateName(map), getTemplateParams(map));
+            return new Search(indexFieldsOnly, getTemplateName(map), getTemplateParams(map));
         } catch (ClassCastException e) {
             throw new MalformedJsonQueryException(e);
         } catch (IOException e) {
-            return new Search(binded, searchString);
+            return new Search(indexFieldsOnly, searchString);
         }
     }
 

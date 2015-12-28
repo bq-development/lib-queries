@@ -8,32 +8,32 @@ import java.util.Optional;
  * @author Francisco Sanchez
  */
 public class Search {
-    private boolean binded;
+    private boolean indexFieldsOnly;
     private Optional<String> text;
     private Optional<String> template;
     private Optional<Map<String, Object>> params;
 
     public Search(boolean binded, String text, String template, Map<String, Object> params) {
-        this.binded = binded;
+        this.indexFieldsOnly = binded;
         this.text = Optional.ofNullable(text);
         this.template = Optional.ofNullable(template);
         this.params = Optional.ofNullable(params);
     }
 
-    public Search(boolean binded, String text) {
-        this(binded, text, null, null);
+    public Search(boolean indexFieldsOnly, String text) {
+        this(indexFieldsOnly, text, null, null);
     }
 
-    public Search(boolean binded, String template, Map<String, Object> params) {
-        this(binded, null, template, params);
+    public Search(boolean indexFieldsOnly, String template, Map<String, Object> params) {
+        this(indexFieldsOnly, null, template, params);
     }
 
-    public boolean isBinded() {
-        return binded;
+    public boolean indexFieldsOnly() {
+        return indexFieldsOnly;
     }
 
-    public void setBinded(boolean binded) {
-        this.binded = binded;
+    public void setIndexFieldsOnly(boolean indexFieldsOnly) {
+        this.indexFieldsOnly = indexFieldsOnly;
     }
 
     public Optional<String> getText() {
@@ -64,7 +64,7 @@ public class Search {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (binded ? 1231 : 1237);
+        result = prime * result + (indexFieldsOnly ? 1231 : 1237);
         result = prime * result + ((params == null) ? 0 : params.hashCode());
         result = prime * result + ((template == null) ? 0 : template.hashCode());
         result = prime * result + ((text == null) ? 0 : text.hashCode());
@@ -83,7 +83,7 @@ public class Search {
             return false;
         }
         Search other = (Search) obj;
-        if (binded != other.binded) {
+        if (indexFieldsOnly != other.indexFieldsOnly) {
             return false;
         }
         if (params == null) {
