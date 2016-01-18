@@ -20,24 +20,29 @@ public class StringQueryLiteral extends QueryLiteral<String> {
     @Override
     protected boolean eq(Object object) throws QueryMatchingException {
         if (object instanceof Collection) {
-            return ((Collection) object).contains(literal);
+            for(Object entry : (Collection) object) {
+                if (literal.equals(entry.toString())) {
+                    return true;
+                }
+            }
+            return false;
         } else {
-            return object.equals(literal);
+            return object.toString().equals(literal);
         }
-    };
+    }
 
     @Override
     protected boolean ne(Object object) throws QueryMatchingException {
         return !eq(object);
-    };
+    }
 
     @Override
     protected boolean like(Object object) throws QueryMatchingException {
-        String stringObject = (String) object;
+        String stringObject = object.toString();
         Pattern pattern = Pattern.compile(literal, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(stringObject);
         return matcher.matches();
-    };
+    }
 
     @Override
     public int hashCode() {
