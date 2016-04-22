@@ -1,5 +1,6 @@
 package io.corbel.lib.queries.matcher;
 
+import io.corbel.lib.queries.ListQueryLiteral;
 import io.corbel.lib.queries.LongQueryLiteral;
 import io.corbel.lib.queries.QueryNodeImpl;
 import io.corbel.lib.queries.StringQueryLiteral;
@@ -10,6 +11,7 @@ import io.corbel.lib.queries.request.ResourceQuery;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -51,6 +53,34 @@ public class QueryMatcherTest {
         testObject2.setMyStringField("other");
         testObject2.setMyOtherStringField("some something");
         assertThat(queryMatcher.matchObject(resourceQuery2, testObject2)).isFalse();
+    }
+
+
+    @Test
+    public void matchObjectLikeListStringTest() throws QueryMatchingException {
+        QueryNode queryNode = new QueryNodeImpl(QueryOperator.$LIKE, "listField", new StringQueryLiteral(
+                ".*AB"));
+
+        ResourceQuery resourceQuery = new ResourceQuery();
+        resourceQuery.addQueryNode(queryNode);
+
+        TestClass testObject = new TestClass();
+        testObject.setListField(Arrays.asList("AB", "CDAB"));
+        testObject.setMyOtherStringField("some something");
+        assertThat(queryMatcher.matchObject(resourceQuery, testObject)).isTrue();
+    }
+
+    @Test
+    public void matchObjectWithEmptyINTest() throws QueryMatchingException {
+        QueryNode queryNode = new QueryNodeImpl(QueryOperator.$IN, "listField", new ListQueryLiteral());
+
+        ResourceQuery resourceQuery = new ResourceQuery();
+        resourceQuery.addQueryNode(queryNode);
+
+        TestClass testObject = new TestClass();
+        testObject.setListField(Arrays.asList("AB", "CDAB"));
+        testObject.setMyOtherStringField("some something");
+        assertThat(queryMatcher.matchObject(resourceQuery, testObject)).isFalse();
     }
 
     @Test

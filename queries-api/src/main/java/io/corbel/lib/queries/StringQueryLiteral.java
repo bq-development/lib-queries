@@ -38,10 +38,21 @@ public class StringQueryLiteral extends QueryLiteral<String> {
 
     @Override
     protected boolean like(Object object) throws QueryMatchingException {
-        String stringObject = object.toString();
         Pattern pattern = Pattern.compile(literal, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = pattern.matcher(stringObject);
-        return matcher.matches();
+        Matcher matcher;
+        if (object instanceof Collection) {
+            for(Object entry : (Collection) object) {
+                matcher = pattern.matcher(entry.toString());
+                if (matcher.matches()) {
+                    return true;
+                }
+            }
+            return false;
+        } else {
+            String stringObject = object.toString();
+            matcher = pattern.matcher(stringObject);
+            return matcher.matches();
+        }
     }
 
     @Override
