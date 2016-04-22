@@ -20,6 +20,9 @@ public class ListQueryLiteral extends QueryLiteral<List<QueryLiteral>> {
 
     @Override
     protected boolean in(Object object) throws QueryMatchingException {
+        if(literal==null) {
+            return false;
+        }
         for (QueryLiteral queryLiteral : literal) {
             if (queryLiteral.operate(QueryOperator.$EQ, object)) {
                 return true;
